@@ -172,7 +172,7 @@ def flat_metas(metas):
             d["n_samples"] = each["n_samples"][i]
             fmetas.append(d)
     df = pd.DataFrame(fmetas)
-    df = df[["fname", "score", "direct", "chvfa", "n_samples"]]
+    df = df[["fname", "start", "end", "score", "direct", "chvfa", "n_samples"]]
     df.sort_values(["fname", "score"], ascending=False, inplace=True)
     print df.head(100)
     return df
