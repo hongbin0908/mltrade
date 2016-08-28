@@ -21,7 +21,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 
 
-istest = False
+istest = True
 
 def split_dates(df):
     """
@@ -107,6 +107,7 @@ def leaves_range(leaves):
     range_ = []
     for each in leaves:
         range_.append((each["min"], each["max"]))
+        print each["min"], each["max"]
     return range_
 
 def leaves_p(leaves):
@@ -134,7 +135,6 @@ def feat_meta(feat, df, label):
     rlt["name"] = feat
     rlt["p"] = 1.0 * len(df[df[label] > 1.0])/len(df)
     rlt["delta_impurity"] = delta_impurity(tree, leaves)
-    print rlt["delta_impurity"]
     rlt["impurity"] = tree.tree_.impurity[0]
     rlt["range"] = leaves_range(leaves)
     rlt["children_p"] = leaves_p(leaves)
