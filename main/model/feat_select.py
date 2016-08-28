@@ -107,7 +107,6 @@ def leaves_range(leaves):
     range_ = []
     for each in leaves:
         range_.append((each["min"], each["max"]))
-        print each["min"], each["max"]
     return range_
 
 def leaves_p(leaves):
@@ -161,6 +160,7 @@ def flat_metas(metas):
     for each in metas:
         d = {}
         for i, term in enumerate(each["direct"]):
+            print i, each["range"][i]
             d["fname"] = each["name"]
             d["name"] = "%s_%d" % (each["name"],i)
             d["start"] = each["range"][i][0]
