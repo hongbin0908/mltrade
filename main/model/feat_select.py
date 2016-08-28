@@ -21,7 +21,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 
 
-istest = True
+istest = False
 
 def split_dates(df):
     """
@@ -158,9 +158,8 @@ def get_metas(dfTa):
 def flat_metas(metas):
     fmetas = []
     for each in metas:
-        d = {}
         for i, term in enumerate(each["direct"]):
-            print i, each["range"][i]
+            d = {}
             d["fname"] = each["name"]
             d["name"] = "%s_%d" % (each["name"],i)
             d["start"] = each["range"][i][0]
@@ -174,7 +173,8 @@ def flat_metas(metas):
     df = pd.DataFrame(fmetas)
     df = df[["fname", "start", "end", "score", "direct", "chvfa", "n_samples"]]
     df.sort_values(["fname", "score"], ascending=False, inplace=True)
-    print df.head(100)
+    print df.head(20)
+    print df.tail(20)
     return df
 
 def apply(dfmetas, df, label):
@@ -198,7 +198,7 @@ def main(args):
     dfmetas = flat_metas(get_metas(phase1))
 
 
-    print apply(dfmetas, phase2, "label5")
+    #print apply(dfmetas, phase2, "label5")
 
 
     sys.exit(0)
