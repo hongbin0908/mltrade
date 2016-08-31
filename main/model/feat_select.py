@@ -176,6 +176,8 @@ def flat_metas(metas):
     print df.head(20)
     print df.tail(20)
     return df
+def ana_fmetas(fmetas):
+    df.sort_values(["score", "fname"], ascending=False).head(20).apply(lambda df: df.)
 
 def apply(dfmetas, df, label):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
