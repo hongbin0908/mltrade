@@ -133,11 +133,14 @@ def feat_meta(feat, df, label):
     rlt["splits"] = leaves
     rlt["name"] = feat
     rlt["p"] = 1.0 * len(df[df[label] > 1.0])/len(df)
+    rlt["n"] = 1.0 * len(df[df[label] < 1.0])/len(df)
     rlt["delta_impurity"] = delta_impurity(tree, leaves)
     rlt["impurity"] = tree.tree_.impurity[0]
     rlt["range"] = leaves_range(leaves)
     rlt["children_p"] = leaves_p(leaves)
+    rlt["children_n"] = [(1-each) for each in leaves_p(leaves)]
     rlt["p_chvfa"] = [each/rlt["p"] for each in rlt["children_p"]]
+    rlt["n_chvfa"] = [(1-each)/rlt["n"]) for each in rlt["children_p"]]
     rlt["direct"] = [1 if each > 1.01 else (-1 if each < 0.99 else 0) for each in rlt['p_chvfa']]
     rlt["n_samples"] =leaves_n_samples(leaves)
     return rlt
@@ -165,25 +168,36 @@ def flat_metas(metas):
             d["start"] = each["range"][i][0]
             d["end"] = each["range"][i][1]
             d["direct"] = each["direct"] [i]
-            d["chvfa"] = each["p_chvfa"][i]
-            d["p"] = each["children_p"][i]
+            d["p_chvfa"] = each["p_chvfa"][i]
+            d["n_chvfa"] = each["n_chvfa"][i]
+            d["c_p"] = each["children_p"][i]
+            d["c_n"] = each["children_n"][i]
+            d["p"] = each["p"]
+            d["n"] = each["n"]
+            assert 1 == d["p"] + d["n"]
             d["score"] = each["delta_impurity"]
             d["n_samples"] = each["n_samples"][i]
             fmetas.append(d)
     df = pd.DataFrame(fmetas)
-    df = df[["fname", "start", "end", "score", "direct", "chvfa",
-                    "n_samples"]]
-    df.sort_values(["score", "fname"], ascending=False, inplace=True)
     return df
 def ana_fmetas(df):
-    max_score = df["score"].max()
-    mean_score = df.sort_values(["score"], ascending=False).head(20)["score"].mean()
+    head = df.sort_values(["score"], ascending=False).head(40)
+    for i, each in head.iterrows():
+        print each["name"],each["fname"],\
+            each["start"],each["end"],\
+            each["direct"],each["p_chvfa"], each["n_chvfa"], \
+            each["n_samples"]\
+            each["c_p"], each["p"],\
+            each["c_N"], each["n"]
+
+    max_score = head["score"].max()
+    mean_score = df["score"].mean()
 
     max_p_rate = df["chvfa"].max()
-    mean_p_rate = df.sort_values(["chvfa"], ascending=False).head(20)["chvfa"].mean()
+    mean_p_rate = df[df.direct == 1]["chvfa"].mean()
 
     max_n_rate = df["chvfa"].min()
-    mean_n_rate = df.sort_values(["chvfa"], ascending=True).head(20)["chvfa"].mean()
+    mean_n_rate = df[df.direct == -1]["chvfa"].mean()
 
     print max_score, mean_score, max_p_rate, mean_p_rate, \
             max_n_rate, mean_n_rate
