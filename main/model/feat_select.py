@@ -132,8 +132,6 @@ def feat_meta(feat, df, label):
     assert isinstance(tree.tree_, _tree.Tree)
 
     leaves = get_leaves(tree, min_, max_)
-    print leaves
-    sys.exit(0)
     rlt["splits"] = leaves
     rlt["name"] = feat
     rlt["p"] = 1.0 * len(df[df[label] > 1.0])/len(df)
