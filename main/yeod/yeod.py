@@ -31,6 +31,10 @@ def get_sp500():
     df = pd.read_csv(os.path.join(root, "constituents-financials.csv"))
     df = df.sort_values("Market Cap", ascending=False)
     return [each["Symbol"].strip() for i, each in df.iterrows()]
+def get_sp500Rng100():
+    df = pd.read_csv(os.path.join(root, "constituents-financials.csv"))
+    df = df.sort_values("Market Cap", ascending=False)
+    return [each["Symbol"].strip() for i, each in df.head(100).tail(50).iterrows()]
 def get_sp500Top5():
     df = pd.read_csv(os.path.join(root, "constituents-financials.csv"))
     df = df.sort_values("Market Cap", ascending=False)
