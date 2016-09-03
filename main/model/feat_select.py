@@ -182,10 +182,10 @@ def flat_metas(metas):
             fmetas.append(d)
     df = pd.DataFrame(fmetas)
     return df
-def ana_fmetas(df):
+def ana_fmetas(df,f):
     head = df.sort_values(["score"], ascending=False).head(40)
     for i, each in head.iterrows():
-        print "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
+        print >>f "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
             each["start"],each["end"],
             each["direct"],each["p_chvfa"], each["n_chvfa"],
             each["n_samples"])
@@ -199,7 +199,7 @@ def ana_fmetas(df):
     max_n_rate = df["n_chvfa"].max()
     mean_n_rate = df[df.direct == -1]["n_chvfa"].mean()
 
-    print "%.8f,%.8f,%.4f,%.4f,%.4f,%.4f" % (max_score, mean_score,
+    print >> f, "%.8f,%.8f,%.4f,%.4f,%.4f,%.4f" % (max_score, mean_score,
                                     max_p_rate, mean_p_rate,
                                     max_n_rate, mean_n_rate)
 def apply(dfmetas, df, label):
@@ -219,8 +219,13 @@ def apply(dfmetas, df, label):
 def main(args):
     dfTa = load_feat(args.taname, args.setname)
     (phase1,phase2,phase3) = split_dates(dfTa)
-
-    ana_fmetas(flat_metas(get_metas(phase1)))
+    outname = os.path.join(root, data,
+                           "feat_select",
+                           "feat_select_%s_%s" % (args.setname, args.taname))
+    if not os.path.exists(os.path.dirname(outname)):
+        os.makedirs(os.path.dirname(outname))
+    with open(outname, "w") as fout:
+        ana_fmetas(flat_metas(get_metas(phase1)), f)
 
 
     #print apply(dfmetas, phase2, "label5")
