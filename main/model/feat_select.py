@@ -171,14 +171,24 @@ def flat_metas(metas):
             d["n_samples"] = each["n_samples"][i]
             fmetas.append(d)
     df = pd.DataFrame(fmetas)
-    df = df[["fname", "start", "end", "score", "direct", "chvfa", "n_samples"]]
+    df = df[["fname", "start", "end", "score", "direct", "chvfa",
+                    "n_samples"]]
     df.sort_values(["score", "fname"], ascending=False, inplace=True)
     print df.head(20)
     print df.tail(20)
     return df
-def ana_fmetas(fmetas):
-    df.sort_values(["score", "fname"], ascending=False).head(20).apply(lambda df: df.)
+def ana_fmetas(df):
+    max_score = df["score"].max()
+    mean_score = df.sort_values(["score"], ascending=False).head(20)["score"].mean()
 
+    max_p_rate = df["chvfa"].max()
+    mean_p_rate = df.sort_values(["chvfa"], ascending=False).head(20)["chvfa"].mean()
+
+    max_n_rate = df["chvfa"].min()
+    mean_n_rate = df.sort_values(["chvfa"], ascending=True).head(20)["chvfa"].mean()
+
+    print max_score, mean_score, max_p_rate, mean_p_rate, \
+            max_n_rate, mean_n_rate
 def apply(dfmetas, df, label):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
     shadows = []
