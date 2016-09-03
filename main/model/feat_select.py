@@ -174,8 +174,6 @@ def flat_metas(metas):
     df = df[["fname", "start", "end", "score", "direct", "chvfa",
                     "n_samples"]]
     df.sort_values(["score", "fname"], ascending=False, inplace=True)
-    print df.head(20)
-    print df.tail(20)
     return df
 def ana_fmetas(df):
     max_score = df["score"].max()
@@ -207,7 +205,7 @@ def main(args):
     dfTa = load_feat(args.taname, args.setname)
     (phase1,phase2,phase3) = split_dates(dfTa)
 
-    dfmetas = flat_metas(get_metas(phase1))
+    ana_fmetas(flat_metas(get_metas(phase1)))
 
 
     #print apply(dfmetas, phase2, "label5")
