@@ -193,11 +193,11 @@ def ana_fmetas(df):
     max_score = head["score"].max()
     mean_score = df["score"].mean()
 
-    max_p_rate = df["chvfa"].max()
-    mean_p_rate = df[df.direct == 1]["chvfa"].mean()
+    max_p_rate = df["p_chvfa"].max()
+    mean_p_rate = df[df.direct == 1]["p_chvfa"].mean()
 
-    max_n_rate = df["chvfa"].min()
-    mean_n_rate = df[df.direct == -1]["chvfa"].mean()
+    max_n_rate = df["n_chvfa"].max()
+    mean_n_rate = df[df.direct == -1]["n_chvfa"].mean()
 
     print max_score, mean_score, max_p_rate, mean_p_rate, \
             max_n_rate, mean_n_rate
