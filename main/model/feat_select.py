@@ -186,9 +186,9 @@ def ana_fmetas(df):
         print each["name"],each["fname"],\
             each["start"],each["end"],\
             each["direct"],each["p_chvfa"], each["n_chvfa"], \
-            each["n_samples"]\
+            each["n_samples"],\
             each["c_p"], each["p"],\
-            each["c_N"], each["n"]
+            each["c_n"], each["n"]
 
     max_score = head["score"].max()
     mean_score = df["score"].mean()
