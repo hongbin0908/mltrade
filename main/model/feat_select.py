@@ -225,7 +225,7 @@ def main(args):
     if not os.path.exists(os.path.dirname(outname)):
         os.makedirs(os.path.dirname(outname))
     with open(outname, "w") as fout:
-        ana_fmetas(flat_metas(get_metas(phase1)), f)
+        ana_fmetas(flat_metas(get_metas(phase1)), fout)
 
 
     #print apply(dfmetas, phase2, "label5")
