@@ -185,7 +185,7 @@ def flat_metas(metas):
 def ana_fmetas(df,f):
     head = df.sort_values(["score"], ascending=False).head(40)
     for i, each in head.iterrows():
-        print >>f "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
+        print >>f, "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
             each["start"],each["end"],
             each["direct"],each["p_chvfa"], each["n_chvfa"],
             each["n_samples"])
