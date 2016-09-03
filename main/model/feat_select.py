@@ -185,12 +185,10 @@ def flat_metas(metas):
 def ana_fmetas(df):
     head = df.sort_values(["score"], ascending=False).head(40)
     for i, each in head.iterrows():
-        print each["name"],each["fname"],\
-            each["start"],each["end"],\
-            each["direct"],each["p_chvfa"], each["n_chvfa"], \
-            each["n_samples"],\
-            each["c_p"], each["p"],\
-            each["c_n"], each["n"]
+        print "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
+            each["start"],each["end"],
+            each["direct"],each["p_chvfa"], each["n_chvfa"],
+            each["n_samples"])
 
     max_score = head["score"].max()
     mean_score = df["score"].mean()
@@ -201,8 +199,9 @@ def ana_fmetas(df):
     max_n_rate = df["n_chvfa"].max()
     mean_n_rate = df[df.direct == -1]["n_chvfa"].mean()
 
-    print max_score, mean_score, max_p_rate, mean_p_rate, \
-            max_n_rate, mean_n_rate
+    print "%.8f,%.8f,%.4f,%.4f,%.4f,%.4f" % (max_score, mean_score,
+                                    max_p_rate, mean_p_rate,
+                                    max_n_rate, mean_n_rate)
 def apply(dfmetas, df, label):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
     shadows = []
