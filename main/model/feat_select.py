@@ -219,7 +219,7 @@ def apply(dfmetas, df, label):
 def main(args):
     dfTa = load_feat(args.taname, args.setname)
     (phase1,phase2,phase3) = split_dates(dfTa)
-    outname = os.path.join(root, data,
+    outname = os.path.join(root, "data",
                            "feat_select",
                            "feat_select_%s_%s" % (args.setname, args.taname))
     if not os.path.exists(os.path.dirname(outname)):
