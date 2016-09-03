@@ -60,6 +60,7 @@ def load_feat(taname, setname):
 def get_leaves(tree, min_, max_):
     def visit(tree, node_id, list_leaf, maximum):
         if tree.children_left[node_id] == _tree.TREE_LEAF:
+            # current node is leaf node
             list_leaf.append((node_id, maximum))
         else:
             visit(tree, tree.children_left[node_id], list_leaf,
@@ -68,6 +69,7 @@ def get_leaves(tree, min_, max_):
                   maximum)
     list_leaf = []
     visit(tree.tree_, 0, list_leaf, np.inf)
+    assert len(list_leaf) >= 2
     for i in range(len(list_leaf)):
         node_id, threshold = list_leaf[i]
         leaf = {}
@@ -142,9 +144,7 @@ def feat_meta(feat, df, label):
     rlt["children_p"] = leaves_p(leaves)
     rlt["children_n"] = [(1-each) for each in leaves_p(leaves)]
     rlt["p_chvfa"] = [each/rlt["p"] for each in rlt["children_p"]]
-    print rlt["p_chvfa"], rlt["p"]
     rlt["n_chvfa"] = [each/rlt["n"] for each in rlt["children_n"]]
-    print rlt["n_chvfa"], rlt["n"]
     rlt["direct"] = [1 if each > 1.01 else (-1 if each < 0.99 else 0) for each in rlt['p_chvfa']]
     rlt["n_samples"] =leaves_n_samples(leaves)
     return rlt
