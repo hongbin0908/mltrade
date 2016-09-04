@@ -170,7 +170,7 @@ def get_metas(dfTa):
 def flat_metas(metas):
     fmetas = []
     for each in metas:
-        for i, term in enumerate(each["direct"]):
+        for i, term in enumerate(each["range"]):
             d = {}
             d["fname"] = each["name"]
             d["name"] = "%s_%d" % (each["name"],i)
