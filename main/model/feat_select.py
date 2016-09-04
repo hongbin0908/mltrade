@@ -24,7 +24,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 
 
-istest = True
+istest = False
 
 def split_dates(df):
     """
@@ -226,7 +226,6 @@ def apply(dfmetas, df, label, subfix):
         d["p"] = fp
         d["n"] = fn
         dfc = df[(df[d["fname"]]>=d["start"]) & (df[d["fname"]]<d["end"])]
-        print len(dfc)
         d["c_p"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]>1.0]) * 1.0 / len(dfc)
         d["c_n"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]<1.0]) * 1.0 / len(dfc)
         d["p_chvfa"] = d["c_p"]/d["p"]
@@ -242,14 +241,14 @@ def ana2(df,f):
     df1 = df[df.direct == 1]
     for i, each in df1.iterrows():
         print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
-    rate1_p2 = len(df1.direct_p2 == 1)*1.0/len(df1)
-    rate1_p3 = len(df1.direct_p3 == 1)*1.0/len(df1)
+    rate1_p2 = len(df1[df1.direct_p2 == 1])*1.0/len(df1)
+    rate1_p3 = len(df1[df1.direct_p3 == 1])*1.0/len(df1)
 
     df2 = df[df.direct == -1]
     for i, each in df2.iterrows():
         print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
-    rate2_p2 = len(df2.direct_p2 == -1) * 1.0 / len(df2)
-    rate2_p3 = len(df2.direct_p3 == -1) * 1.0 / len(df2)
+    rate2_p2 = len(df2[df2.direct_p2 == -1]) * 1.0 / len(df2)
+    rate2_p3 = len(df2[df2.direct_p3 == -1]) * 1.0 / len(df2)
 
     print >> f, "%.4f,%.4f,%.4f,%.4f" % (rate1_p2, rate1_p3, rate2_p2, rate2_p3)
 
