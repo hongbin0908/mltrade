@@ -35,24 +35,6 @@ def split_dates(df):
     phase3 = df[(df.date >= '2010-01-01') & (df.date < '2016-01-01')]
     return (phase1, phase2, phase3)
 
-def cal_com(df, start, end, fn, mi, ma, rate):
-    num_com = 0
-    num_less = 0
-    lost_year = []
-    for i in range(start, end):
-        cur_year = get_year(df, i)
-        rate_cur = acc2(cur_year, fn, mi, ma)
-        if rate_cur < 0:
-            num_com += 1
-            num_less += 1
-            continue
-        if (rate_cur-1) * (rate-1) > 0:
-            num_com += 1
-        else:
-            lost_year.append(i)
-    return num_com, num_less, lost_year
-
-
 @time_me
 def load_feat(taname, setname):
     # get all the features
@@ -268,7 +250,7 @@ def main(args):
 
 
     dfmetas = apply(dfmetas, phase2, "label5", "_p2")
-    dfmetas = apply(dfmetas, phase2, "label5", "_p3")
+    dfmetas = apply(dfmetas, phase3, "label5", "_p3")
 
     print dfmetas.head()
 
