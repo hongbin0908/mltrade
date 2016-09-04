@@ -247,7 +247,7 @@ def ana2(df,f):
     rate2_p2 = len(df2.direct_p2 == -1) * 1.0 / len(df2)
     rate2_p3 = len(df2.direct_p3 == -1) * 1.0 / len(df2)
 
-    print >> f, "%.4f,%.4f,%.4f,%.4f" % (rate1_p2, rate1_p3, rate2_p1, rate2_p2)
+    print >> f, "%.4f,%.4f,%.4f,%.4f" % (rate1_p2, rate1_p3, rate2_p2, rate2_p3)
 
 @time_me
 def main(args):
