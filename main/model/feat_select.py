@@ -230,16 +230,19 @@ def apply(dfmetas, df, label, subfix):
 def main(args):
     dfTa = load_feat(args.taname, args.setname)
     (phase1,phase2,phase3) = split_dates(dfTa)
+
+    dfmetas = flat_metas(get_metas(phase1))
     outname = os.path.join(root, "data",
                            "feat_select",
                            "feat_select_%s_%s" % (args.setname, args.taname))
     if not os.path.exists(os.path.dirname(outname)):
         os.makedirs(os.path.dirname(outname))
     with open(outname, "w") as fout:
-        ana_fmetas(flat_metas(get_metas(phase1)), fout)
+        ana_fmetas(dfmetas, fout)
 
 
-    print apply(dfmetas, phase2, "label5", "_p2")
+    dfmetas = apply(dfmetas, phase2, "label5", "_p2")
+    dfmetas = apply(dfmetas, phase2, "label5", "_p3")
 
 
     sys.exit(0)
