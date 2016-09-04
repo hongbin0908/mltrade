@@ -158,6 +158,7 @@ def get_metas(dfTa):
     pool = multiprocessing.Pool(processes=20)
     feat_names = base.get_feat_names(dfTa)
     idx = 0
+    results = []
     for cur_feat in feat_names:
         idx += 1
         if istest :
