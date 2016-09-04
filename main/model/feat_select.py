@@ -122,6 +122,7 @@ def leaves_p(leaves):
         assert each["value"][0] + each["value"][1] == each["n_samples"]
     return p_
 
+@time_me
 def feat_meta(feat, df, label):
     rlt = {}
     tree = get_tree()
