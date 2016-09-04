@@ -202,19 +202,30 @@ def ana_fmetas(df,f):
     print >> f, "%.8f,%.8f,%.4f,%.4f,%.4f,%.4f" % (max_score, mean_score,
                                     max_p_rate, mean_p_rate,
                                     max_n_rate, mean_n_rate)
-def apply(dfmetas, df, label):
+def apply(dfmetas, df, label, subfix):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
+    fn = len(df[df[label] < 1.0]) * 1.0 / len(df)
+
     shadows = []
     for i, each in dfmetas.iterrows():
         d = {}
-        d["featname"] =  each["fname"]
+        d["name"] = each["name"]
+        d["fname"] =  each["fname"]
         d["start"] = each["start"]
         d["end"] = each["end"]
-        dfc = df[(df[d["featname"]]>=d["start"]) & (df[d["featname"]]<d["end"])]
-        d["cp"] = len(dfc[dfc[label]>1.0]) * 1.0 / len(dfc)
-        d["chvfa"] = d["cp"]/fp
+        d["p"] = fp
+        d["n"] = fn
+        dfc = df[(df[d["fname"]]>=d["start"]) & (df[d["fname"]]<d["end"])]
+        d["c_p"] = len(dfc[dfc[label]>1.0]) * 1.0 / len(dfc)
+        d["c_n"] = len(dfc[dfc[label]<1.0]) * 1.0 / len(dfc)
+        d["p_chvfa"] = d["c_p"]/d["p"]
+        d["n_chvfa"] = d["c_n"]/d["n"]
+        d["n_samples"] = len(dfc)
         shadows.append(d)
-    return pd.DataFrame(shadows)
+    df2 = pd.DataFrame(shadows)
+    return dfmetas.merge(df2, left_on=["name", "fname", "start", "end"],
+                            right_on=["name", "fname", "start", "end"],
+                            suffixes = ("",subfix))
 
 def main(args):
     dfTa = load_feat(args.taname, args.setname)
@@ -228,7 +239,7 @@ def main(args):
         ana_fmetas(flat_metas(get_metas(phase1)), fout)
 
 
-    #print apply(dfmetas, phase2, "label5")
+    print apply(dfmetas, phase2, "label5", "_p2")
 
 
     sys.exit(0)
