@@ -23,7 +23,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 
 
-istest = False
+istest = True
 
 def split_dates(df):
     """
@@ -52,6 +52,7 @@ def cal_com(df, start, end, fn, mi, ma, rate):
     return num_com, num_less, lost_year
 
 
+@time_me
 def load_feat(taname, setname):
     # get all the features
     dfTa = base.get_merged(taname,
@@ -151,17 +152,18 @@ def feat_meta(feat, df, label):
     return rlt
 
 
+@time_me
 def get_metas(dfTa):
+    pool = multiprocessing.Pool(processes=20)
     feat_names = base.get_feat_names(dfTa)
-    list_feat_meta = []
     idx = 0
     for cur_feat in feat_names:
         idx += 1
         if istest :
             if idx > 10:
                 break
-        list_feat_meta.append(feat_meta(cur_feat, dfTa, "label5"))
-    return list_feat_meta
+        results.append(pool.apply_async(feat_meta, (cur_feat, dfTa, "label5")))
+    return [result.get() for result in results]
 
 def flat_metas(metas):
     fmetas = []
