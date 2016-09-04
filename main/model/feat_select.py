@@ -122,7 +122,6 @@ def leaves_p(leaves):
         assert each["value"][0] + each["value"][1] == each["n_samples"]
     return p_
 
-@time_me
 def feat_meta(feat, df, label):
     rlt = {}
     tree = get_tree()
@@ -155,7 +154,7 @@ def feat_meta(feat, df, label):
 
 @time_me
 def get_metas(dfTa):
-    pool = multiprocessing.Pool(processes=20)
+    #pool = multiprocessing.Pool(processes=20)
     feat_names = base.get_feat_names(dfTa)
     idx = 0
     results = []
@@ -164,8 +163,10 @@ def get_metas(dfTa):
         if istest :
             if idx > 10:
                 break
-        results.append(pool.apply_async(feat_meta, (cur_feat, dfTa, "label5")))
-    return [result.get() for result in results]
+        #results.append(pool.apply_async(feat_meta, (cur_feat, dfTa, "label5")))
+        results.append(feat_meta(cur_feat, dfTa, "label5"))
+        print "%d done!" % idx
+    return [result for result in results]
 
 def flat_metas(metas):
     fmetas = []
