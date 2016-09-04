@@ -243,7 +243,7 @@ def ana2(df,f):
 
     for i, each in df1.iterrows():
         for key in each:
-            print each[key],
+            print key,
         print
     rate1_p2 = len(df1.direct_p2 == 1)*1.0/len(df1)
     rate1_p3 = len(df1.direct_p3 == 1)*1.0/len(df1)
