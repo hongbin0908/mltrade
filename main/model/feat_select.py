@@ -147,7 +147,6 @@ def feat_meta(feat, df, label):
     rlt["children_n"] = [(1-each) for each in leaves_p(leaves)]
     rlt["p_chvfa"] = [each/rlt["p"] for each in rlt["children_p"]]
     rlt["n_chvfa"] = [each/rlt["n"] for each in rlt["children_n"]]
-    rlt["direct"] = [1 if each > 1.01 else (-1 if each < 0.99 else 0) for each in rlt['p_chvfa']]
     rlt["n_samples"] =leaves_n_samples(leaves)
     return rlt
 
@@ -177,7 +176,6 @@ def flat_metas(metas):
             d["name"] = "%s_%d" % (each["name"],i)
             d["start"] = each["range"][i][0]
             d["end"] = each["range"][i][1]
-            d["direct"] = each["direct"] [i]
             d["p_chvfa"] = each["p_chvfa"][i]
             d["n_chvfa"] = each["n_chvfa"][i]
             d["c_p"] = each["children_p"][i]
@@ -187,6 +185,7 @@ def flat_metas(metas):
             assert 1 == d["p"] + d["n"]
             d["score"] = each["delta_impurity"]
             d["n_samples"] = each["n_samples"][i]
+            d["direct"] = 1 if d["p_chvfa"] > 1.01  else (-1 if d["n_chvfa" > 1.01 ]else 0)
             fmetas.append(d)
     df = pd.DataFrame(fmetas)
     return df
@@ -231,6 +230,7 @@ def apply(dfmetas, df, label, subfix):
         d["c_p"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]>1.0]) * 1.0 / len(dfc)
         d["c_n"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]<1.0]) * 1.0 / len(dfc)
         d["p_chvfa"] = d["c_p"]/d["p"]
+        d["direct"] = 1 if d["p_chvfa"] > 1.01  else (-1 if d["n_chvfa" > 1.01 ]else 0)
         d["n_chvfa"] = d["c_n"]/d["n"]
         d["n_samples"] = len(dfc)
         shadows.append(d)
