@@ -9,6 +9,7 @@ import sys
 import os
 import numpy as np
 import pandas as pd
+import multiprocessing
 
 local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
