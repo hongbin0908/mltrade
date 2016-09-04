@@ -185,7 +185,7 @@ def flat_metas(metas):
             assert 1 == d["p"] + d["n"]
             d["score"] = each["delta_impurity"]
             d["n_samples"] = each["n_samples"][i]
-            d["direct"] = 1 if d["p_chvfa"] > 1.01  else (-1 if d["n_chvfa" > 1.01 ]else 0)
+            d["direct"] = 1 if d["p_chvfa"] > 1.01  else (-1 if d["n_chvfa"] > 1.01 else 0)
             fmetas.append(d)
     df = pd.DataFrame(fmetas)
     return df
@@ -230,7 +230,7 @@ def apply(dfmetas, df, label, subfix):
         d["c_p"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]>1.0]) * 1.0 / len(dfc)
         d["c_n"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]<1.0]) * 1.0 / len(dfc)
         d["p_chvfa"] = d["c_p"]/d["p"]
-        d["direct"] = 1 if d["p_chvfa"] > 1.01  else (-1 if d["n_chvfa" > 1.01 ]else 0)
+        d["direct"] = 1 if d["p_chvfa"] > 1.01  else (-1 if d["n_chvfa"] > 1.01 else 0)
         d["n_chvfa"] = d["c_n"]/d["n"]
         d["n_samples"] = len(dfc)
         shadows.append(d)
