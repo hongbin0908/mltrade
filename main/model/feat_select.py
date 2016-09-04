@@ -238,6 +238,16 @@ def apply(dfmetas, df, label, subfix):
     return dfmetas.merge(df2, left_on=["name", "fname", "start", "end"],
                             right_on=["name", "fname", "start", "end"],
                             suffixes = ("",subfix))
+def ana2(df,f):
+    df1 = df[df.direct == 1]
+    rate1_p2 = len(df1.direct_p2 == 1)*1.0/len(df1)
+    rate1_p3 = len(df1.direct_p3 == 1)*1.0/len(df1)
+
+    df2 = df[df.direct == -1]
+    rate2_p2 = len(df2.direct_p2 == -1) * 1.0 / len(df2)
+    rate2_p3 = len(df2.direct_p3 == -1) * 1.0 / len(df2)
+
+    print >> f, "%.4f,%.4f,%.4f,%.4f" % (rate1_p2, rate1_p3, rate2_p1, rate2_p2)
 
 @time_me
 def main(args):
@@ -257,37 +267,13 @@ def main(args):
     dfmetas = apply(dfmetas, phase2, "label5", "_p2")
     dfmetas = apply(dfmetas, phase2, "label5", "_p3")
 
+    print dfmetas.head()
 
-    sys.exit(0)
-    for feat in list_feat_impurity:
-        for token in feat["list_leaf"]:
-            fn = feat["feat_name"]
-            mi = token["min"]
-            ma = token["max"]
-            print fn,
-            print mi, ma, "\t\t",
-
-            # print "%.4f" % (token["value"][1]*1.0/token["n_samples"]),
-
-            rateTrain = acc2(dfTrain, fn, mi, ma)
-
-            if rateTrain < 0:
-                continue
-
-            num_com, num_less, losts = cal_com(dfTa, 1980, 2000,
-                                        fn, mi, ma, rateTrain)
-
-            print "%d\t%d\t" % (num_com, num_less),
-            num_com, num_less, losts = cal_com(dfTa, 2000, 2010,
-                                        fn, mi, ma, rateTrain)
-            print "%d\t%d\t" % (num_com, num_less),
-
-            num_com, num_less, losts = cal_com(dfTa, 2010, 2015,
-                                        fn, mi, ma, rateTrain)
-            print "%d\t%d\t" % (num_com, num_less),
-            for each in losts:
-                print "%d\t" % each,
-            print
+    outname = os.path.join(root, "data",
+                           "feat_select",
+                           "feat_select_ana2_%s_%s" % (args.setname, args.taname))
+    with open(outname, "w") as fout:
+        ana2(dfmetas, fout)
 
 
 if __name__ == '__main__':
