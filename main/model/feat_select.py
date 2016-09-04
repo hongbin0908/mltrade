@@ -24,7 +24,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 
 
-istest = True
+istest = False
 
 def split_dates(df):
     """
@@ -122,7 +122,6 @@ def leaves_p(leaves):
         assert each["value"][0] + each["value"][1] == each["n_samples"]
     return p_
 
-@time_me
 def feat_meta(feat, df, label):
     rlt = {}
     tree = get_tree()
