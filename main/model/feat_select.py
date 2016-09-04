@@ -24,7 +24,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 
 
-istest = False
+istest = True
 
 def split_dates(df):
     """
