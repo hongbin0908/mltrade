@@ -9,12 +9,12 @@ import sys
 import os
 import numpy as np
 import pandas as pd
-from ..utils import time_me
 
 local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
 
+from main.utils import time_me
 
 import main.yeod.yeod as yeod
 import main.base as base
