@@ -240,12 +240,14 @@ def apply(dfmetas, df, label, subfix):
                             suffixes = ("",subfix))
 def ana2(df,f):
     df1 = df[df.direct == 1]
-    print df1.head(20)
-
+    for i, each in df1.iterrows():
+        print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
     rate1_p2 = len(df1.direct_p2 == 1)*1.0/len(df1)
     rate1_p3 = len(df1.direct_p3 == 1)*1.0/len(df1)
 
     df2 = df[df.direct == -1]
+    for i, each in df2.iterrows():
+        print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
     rate2_p2 = len(df2.direct_p2 == -1) * 1.0 / len(df2)
     rate2_p3 = len(df2.direct_p3 == -1) * 1.0 / len(df2)
 
