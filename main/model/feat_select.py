@@ -9,6 +9,8 @@ import sys
 import os
 import numpy as np
 import pandas as pd
+from main.utils import time_me
+
 local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
@@ -118,6 +120,7 @@ def leaves_p(leaves):
         assert each["value"][0] + each["value"][1] == each["n_samples"]
     return p_
 
+@time_me
 def feat_meta(feat, df, label):
     rlt = {}
     tree = get_tree()
@@ -182,6 +185,8 @@ def flat_metas(metas):
             fmetas.append(d)
     df = pd.DataFrame(fmetas)
     return df
+
+@time_me
 def ana_fmetas(df,f):
     head = df.sort_values(["score"], ascending=False).head(40)
     for i, each in head.iterrows():
@@ -202,6 +207,7 @@ def ana_fmetas(df,f):
     print >> f, "%.8f,%.8f,%.4f,%.4f,%.4f,%.4f" % (max_score, mean_score,
                                     max_p_rate, mean_p_rate,
                                     max_n_rate, mean_n_rate)
+@time_me
 def apply(dfmetas, df, label, subfix):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
     fn = len(df[df[label] < 1.0]) * 1.0 / len(df)
@@ -227,6 +233,7 @@ def apply(dfmetas, df, label, subfix):
                             right_on=["name", "fname", "start", "end"],
                             suffixes = ("",subfix))
 
+@time_me
 def main(args):
     dfTa = load_feat(args.taname, args.setname)
     (phase1,phase2,phase3) = split_dates(dfTa)
