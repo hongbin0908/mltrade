@@ -227,8 +227,9 @@ def apply(dfmetas, df, label, subfix):
         d["p"] = fp
         d["n"] = fn
         dfc = df[(df[d["fname"]]>=d["start"]) & (df[d["fname"]]<d["end"])]
-        d["c_p"] = len(dfc[dfc[label]>1.0]) * 1.0 / len(dfc)
-        d["c_n"] = len(dfc[dfc[label]<1.0]) * 1.0 / len(dfc)
+        print len(dfc)
+        d["c_p"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]>1.0]) * 1.0 / len(dfc)
+        d["c_n"] = 0 if len(dfc) == 0 else len(dfc[dfc[label]<1.0]) * 1.0 / len(dfc)
         d["p_chvfa"] = d["c_p"]/d["p"]
         d["n_chvfa"] = d["c_n"]/d["n"]
         d["n_samples"] = len(dfc)
