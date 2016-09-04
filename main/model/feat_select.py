@@ -240,11 +240,8 @@ def apply(dfmetas, df, label, subfix):
                             suffixes = ("",subfix))
 def ana2(df,f):
     df1 = df[df.direct == 1]
+    print df1.head(20)
 
-    for i, each in df1.iterrows():
-        for key in each:
-            print key,
-        print
     rate1_p2 = len(df1.direct_p2 == 1)*1.0/len(df1)
     rate1_p3 = len(df1.direct_p3 == 1)*1.0/len(df1)
 
