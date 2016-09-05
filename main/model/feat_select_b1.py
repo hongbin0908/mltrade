@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @author  Bin Hong
 
-import os
+import os,sys
 
 
 
@@ -16,6 +16,7 @@ if __name__ == '__main__':
     for i in range(10):
         frm = 50  * i
         to  = frm + 50
-        os.system("""
+        cmdstr = """
                   python main/model/feat_select.py sp500R%dT%d base1
-                  """ % (frm, to))
+                  """ % (frm, to)
+        os.system(cmdstr)
