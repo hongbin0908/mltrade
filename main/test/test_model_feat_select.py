@@ -13,7 +13,7 @@ def test_ana_fmetas():
                 "chvfa", "n_samples"]
     )
 
-    feat_select.ana_fmetas(df, sys.stdout)
+    #feat_select.ana_fmetas(df, sys.stdout)
 
 
 def test_apply():
@@ -39,6 +39,4 @@ def test_apply():
     )
 
     print feat_select.apply(dfmetas, p2, "label5", "_p2")
-
-    assert 0
 

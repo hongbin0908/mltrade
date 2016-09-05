@@ -27,6 +27,16 @@ def get_dow():
                 "XOM", ]
     return symbols
 
+
+for i in range(10):
+    exec("""
+def get_sp500R%dT%d():
+   df = pd.read_csv(os.path.join(root, "constituents-financials.csv"))
+   df = df.sort_values("Market Cap", ascending=False)
+   return [each["Symbol"].strip() for i, each in df.head(%d).tail(50).iterrows()]
+         """ % (50*i, 50*i+50, 50*i+50))
+
+
 def get_sp500():
     df = pd.read_csv(os.path.join(root, "constituents-financials.csv"))
     df = df.sort_values("Market Cap", ascending=False)
