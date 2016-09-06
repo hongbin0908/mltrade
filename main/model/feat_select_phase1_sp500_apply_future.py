@@ -17,5 +17,5 @@ if __name__ == '__main__':
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
                               "sp500_base1_stable.pkl"))
-    assert 68 == df[df.direct == 1]
-    assert 83 == df[df.direct == -1]
+    assert 68 == len(df[df.direct == 1])
+    assert 83 == len(df[df.direct == -1])
