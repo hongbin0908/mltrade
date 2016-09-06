@@ -16,7 +16,7 @@ from main.model import feat_select
 def phase1_dump(taname, setname):
     dfTa = feat_select.load_feat(taname, setname)
     (phase1, phase2, phase3) = feat_select.split_dates(dfTa)
-    dfmetas = feat_select.flat_metas(get_metas(phase1))
+    dfmetas = feat_select.flat_metas(feat_select.get_metas(phase1))
     outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
     if not os.path.exists(outdir):
         os.makedirs(outdir)
