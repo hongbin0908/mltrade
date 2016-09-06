@@ -29,11 +29,13 @@ if __name__ == '__main__':
     fout = os.path.join(dataroot,
                         "feat_select_phase1_sp500_apply_future.ana")
     f = open(fout, "w")
+    print >> f, "## sp500_base1_stable.pkl"
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
                               "sp500_base1_stable.pkl"))
 
     work(df, f)
+    print >> f, "## sp500_base1.pkl"
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
                               "sp500_base1.pkl"))
