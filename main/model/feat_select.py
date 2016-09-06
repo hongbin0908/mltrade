@@ -23,6 +23,8 @@ import main.ta.build as build
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 
+dataroot = os.path.join(root, "data", "feat_select")
+
 
 istest = False
 
@@ -173,7 +175,7 @@ def flat_metas(metas):
     return df
 
 @time_me
-def ana_fmetas(df,f, args):
+def ana_fmetas(df,taname, setname):
     head = df.sort_values(["score"], ascending=False).head(40)
     for i, each in head.iterrows():
         print >>f, "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
@@ -194,11 +196,17 @@ def ana_fmetas(df,f, args):
     direct_n_num =  len(df[df.direct == -1])
     direct_0_num =  len(df[df.direct == 0])
 
-    print >> f, "%.8f,%.8f,%.4f,%.4f,%.4f,%.4f" % (max_score, mean_score,
+    outfile = os.path.join(dataroot, "phase1_dump", "%s_%s.ana" % (setname, taname))
+
+    with open(outfile, "w") as f:
+
+        print >> f, "delta_dis: |%s|%.8f|%.8f|%.4f|%.4f|%.4f|%.4f|" % (setname,
+                                    max_score, mean_score,
                                     max_p_rate, mean_p_rate,
                                     max_n_rate, mean_n_rate)
-    assert len(df) == direct_p_num + direct_n_num + direct_0_num
-    print >> f, "direct_dis: |%s|%d|%d|%d|%d|" % (args.setname, len(df), direct_p_num, direct_n_num, direct_0_num)
+        assert len(df) == direct_p_num + direct_n_num + direct_0_num
+        print >> f, "direct_dis: |%s|%d|%d|%d|%d|" % (setname,
+                              len(df), direct_p_num, direct_n_num, direct_0_num)
 @time_me
 def apply(dfmetas, df, label, subfix):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
@@ -239,6 +247,16 @@ def ana2(df,f):
     rate2_p3 = len(df2[df2.direct_p3 == -1]) * 1.0 / len(df2)
 
     print >> f, "%.4f,%.4f,%.4f,%.4f" % (rate1_p2, rate1_p3, rate2_p2, rate2_p3)
+
+def phase1_dump(taname, setname):
+    dfTa = load_feat(taname, setname)
+    (phase1, phase2, phase3) = split_dates(dfTa)
+    dfmetas = flat_metas(get_metas(phase1))
+    outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
+    dfmetas.to_pickle(os.path.join(outdir, "%s_%s.pkl" % (setname, taname)))
+    return dfmetas
 
 @time_me
 def main(args):
