@@ -140,7 +140,7 @@ def feat_meta(feat, df, label):
     rlt["n_chvfa"] = [each/rlt["n"] for each in rlt["children_n"]]
     rlt["n_samples"] =leaves_n_samples(leaves)
 
-    for i in len(rlt["range"]):
+    for i in range(len(rlt["range"])):
         cur_range = rlt["range"][i]
         assert rlt["n_samples"][i] == len(df[(df[feat]>=cur_range[0])&(df[feat]<cur_range[1])])
     return rlt
