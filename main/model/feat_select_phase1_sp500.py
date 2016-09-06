@@ -47,6 +47,7 @@ if __name__ == '__main__':
     for name in abs_direct_p_set:
         for i, each in df[df.name == name].iterrows():
             print each["fname"], each["start"],each["end"]
+            print i
             assert i < 1
 
     f.close()
