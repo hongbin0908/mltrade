@@ -173,7 +173,7 @@ def flat_metas(metas):
     return df
 
 @time_me
-def ana_fmetas(df,f):
+def ana_fmetas(df,f, args):
     head = df.sort_values(["score"], ascending=False).head(40)
     for i, each in head.iterrows():
         print >>f, "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
@@ -198,7 +198,7 @@ def ana_fmetas(df,f):
                                     max_p_rate, mean_p_rate,
                                     max_n_rate, mean_n_rate)
     assert len(df) == direct_p_num + direct_n_num + direct_0_num
-    print >> f, "%d,%d,%d,%d" % (len(df), direct_p_num, direct_n_num, direct_0_num)
+    print >> f, "direct_dis: |%s|%d|%d|%d|%d|" % (args.setname, len(df), direct_p_num, direct_n_num, direct_0_num)
 @time_me
 def apply(dfmetas, df, label, subfix):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
@@ -252,7 +252,7 @@ def main(args):
     if not os.path.exists(os.path.dirname(outname)):
         os.makedirs(os.path.dirname(outname))
     with open(outname, "w") as fout:
-        ana_fmetas(dfmetas, fout)
+        ana_fmetas(dfmetas, fout, args)
 
 
     dfmetas = apply(dfmetas, phase2, "label5", "_p2")
