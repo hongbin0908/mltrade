@@ -257,7 +257,7 @@ def ana2(df,f):
 
 def phase1_dump(taname, setname):
     dfTa = load_feat(taname, setname)
-    (phase1, phase2, phase3) ana= split_dates(dfTa)
+    (phase1, phase2, phase3) = split_dates(dfTa)
     dfmetas = flat_metas(get_metas(phase1))
     outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
     if not os.path.exists(outdir):
