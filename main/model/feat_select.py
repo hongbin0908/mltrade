@@ -240,7 +240,7 @@ def ana_apply(df, suffix, setname,f):
 
     print >> f, "|%s|%.4f|%.4f|" % (setname,rate1, rate2)
 
-def ana2(df,f):
+def ana2(df,f, setname):
     df1 = df[df.direct == 1]
     #for i, each in df1.iterrows():
     #    print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
@@ -253,7 +253,7 @@ def ana2(df,f):
     rate2_p2 = len(df2[df2.direct_p2 == -1]) * 1.0 / len(df2)
     rate2_p3 = len(df2[df2.direct_p3 == -1]) * 1.0 / len(df2)
 
-    print >> f, "%.4f,%.4f,%.4f,%.4f" % (rate1_p2, rate1_p3, rate2_p2, rate2_p3)
+    print >> f, "|%s|%.4f|%.4f|%.4f|%.4f|" % (setname, rate1_p2, rate1_p3, rate2_p2, rate2_p3)
 
 def phase1_dump(taname, setname):
     dfTa = load_feat(taname, setname)
