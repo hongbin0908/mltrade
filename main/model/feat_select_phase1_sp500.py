@@ -14,12 +14,14 @@ from main.model import feat_select
 dataroot = os.path.join(root, "data", "feat_select")
 
 if __name__ == '__main__':
-    # TODO check if file exsits
-    # df = feat_select.phase1_dump("base1", "sp500")
-    f = open(os.path.join(dataroot, "feat_select_phase1_sp500.ana"), "w")
-    df = pd.read_pickle(os.path.join(dataroot,
+    fphase1 = os.path.join(dataroot,
                                      "phase1_dump",
-                                     "sp500_base1.pkl"))
+                                     "sp500_base1.pkl")
+    if not os.path.exists(fphase1):
+        feat_select.phase1_dump("base1", "sp500")
+    df = pd.read_pickle(fphase1)
+
+    f = open(os.path.join(dataroot, "feat_select_phase1_sp500.ana"), "w")
     feat_select.ana_fmetas(df, "base1", "sp500", f)
 
     abs_direct_p_set = set(df[df.direct == 1].name.unique())

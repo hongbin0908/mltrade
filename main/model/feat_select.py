@@ -65,13 +65,16 @@ def get_leaves(tree, min_, max_):
         leaf["impurity"] = tree.tree_.impurity[node_id]
         leaf["n_samples"] = tree.tree_.n_node_samples[node_id]
         leaf["value"] = tree.tree_.value[node_id][0]
+        p1 = leaf["value"][0]/leaf["n_samples"]
+        p2 = leaf["value"][1]/leaf["n_samples"]
+        assert leaf["impurity"] == 1- p1*p1 -p2*p2
         if i == 0:
-            leaf["min"] = min_
+            leaf["min"] = min_ - 0.0001
         else:
             leaf["min"] = list_leaf[i-1]["max"]
         leaf["max"] = threshold
         if np.isinf(leaf["max"]):
-            leaf["max"] = max_
+            leaf["max"] = max_ + 0.0001
         list_leaf[i] = leaf
     return list_leaf
 
@@ -126,12 +129,19 @@ def feat_meta(feat, df, label):
     rlt["n"] = 1.0 * len(df[df[label] < 1.0])/len(df)
     rlt["delta_impurity"] = delta_impurity(tree, leaves)
     rlt["impurity"] = tree.tree_.impurity[0]
+    p1 = 1.0*len(df[df[label]>1.0])/len(df)
+    p2 = 1.0*len(df[df[label]<1.0])/len(df)
+    assert rlt["impurity"] == 1- p1*p1 -p2*p2
     rlt["range"] = leaves_range(leaves)
     rlt["children_p"] = leaves_p(leaves)
     rlt["children_n"] = [(1-each) for each in leaves_p(leaves)]
     rlt["p_chvfa"] = [each/rlt["p"] for each in rlt["children_p"]]
     rlt["n_chvfa"] = [each/rlt["n"] for each in rlt["children_n"]]
     rlt["n_samples"] =leaves_n_samples(leaves)
+
+    for i in len(rlt["range"]):
+        cur_range = rlt["range"][i]
+        assert rlt["n_samples"][i] == len(df[(df[feat]>=cur_range[0])&(df[feat]<cur_range[1])])
     return rlt
 
 
