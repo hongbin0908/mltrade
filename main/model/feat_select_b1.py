@@ -19,4 +19,5 @@ if __name__ == '__main__':
         cmdstr = """
                   python main/model/feat_select.py sp500R%dT%d base1
                   """ % (frm, to)
+        print cmdstr
         os.system(cmdstr)

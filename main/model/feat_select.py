@@ -190,9 +190,15 @@ def ana_fmetas(df,f):
     max_n_rate = df["n_chvfa"].max()
     mean_n_rate = df[df.direct == -1]["n_chvfa"].mean()
 
+    direct_p_num =  len(df[df.direct == 1])
+    direct_n_num =  len(df[df.direct == -1])
+    direct_0_num =  len(df[df.direct == 0])
+
     print >> f, "%.8f,%.8f,%.4f,%.4f,%.4f,%.4f" % (max_score, mean_score,
                                     max_p_rate, mean_p_rate,
                                     max_n_rate, mean_n_rate)
+    assert len(df) == direct_p_num + direct_n_num + direct_0_num
+    print >> f, "%d,%d,%d,%d" % (len(df), direct_p_num, direct_n_num, direct_0_num)
 @time_me
 def apply(dfmetas, df, label, subfix):
     fp = len(df[df[label] > 1.0]) * 1.0 / len(df)
