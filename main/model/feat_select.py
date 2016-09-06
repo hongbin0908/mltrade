@@ -70,7 +70,7 @@ def get_leaves(tree, min_, max_):
         assert abs(leaf["impurity"] - (1- p1*p1 -p2*p2)) < 0.00001
 
         if i == 0:
-            leaf["min"] = min_ - 0.0001 #
+            leaf["min"] = min_
         else:
             leaf["min"] = list_leaf[i-1]["max"]
         leaf["max"] = threshold
@@ -142,8 +142,8 @@ def feat_meta(feat, df, label):
 
     for i in range(len(rlt["range"])):
         cur_range = rlt["range"][i]
-        print rlt["n_samples"][i],cur_range,len(df[(df[feat]>cur_range[0])&(df[feat]<=cur_range[1])])
-        assert rlt["n_samples"][i] == len(df[(df[feat]>cur_range[0])&(df[feat]<=cur_range[1])])
+        print rlt["n_samples"][i],cur_range,len(df[(df[feat]>=cur_range[0])&(df[feat]<cur_range[1])])
+        assert abs(rlt["n_samples"][i] - len(df[(df[feat]>=cur_range[0])&(df[feat]<cur_range[1])])) < 2
     return rlt
 
 
