@@ -4,7 +4,7 @@
 
 import os,sys
 import multiprocessing
-import .feat_select  as feat_select
+from . import feat_select
 
 
 
