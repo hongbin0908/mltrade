@@ -50,6 +50,12 @@ if __name__ == '__main__':
         cur_n_set = set(df2[df2.direct_p1 == -1].name.unique())
         abs_direct_p_set = abs_direct_p_set.intersection(cur_p_set)
         abs_direct_n_set = abs_direct_n_set.intersection(cur_n_set)
+    df["istable"] = 1
+    df.apply(lambda row: 1 if row["name"] in abs_direct_p_set else \
+             (1 if row["name"] in abs_direct_n_set else 0), axis = 1)
+    df.to_pickle(os.path.join(dataroot,
+                              "phase1_dump",
+                              "sp500_base1_stable.pkl"))
     print "|%d|%d|%d|" % (len(orig_direct_p_set), len(abs_direct_p_set), len(orig_direct_p_set- abs_direct_p_set))
     print "|%d|%d|%d|" % (len(orig_direct_n_set), len(abs_direct_n_set), len(orig_direct_n_set- abs_direct_n_set))
     print >> f, "## stable feats on postive direct"
