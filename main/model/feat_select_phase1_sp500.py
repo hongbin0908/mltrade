@@ -19,7 +19,7 @@ if __name__ == '__main__':
                                      "phase1_dump",
                                      "sp500_base1.pkl"))
     feat_select.ana_fmetas(df, "base1", "sp500", sys.stdout)
-        print >>f, "="*8
+    print >>f, "="*8
     for i in range(10):
         frm = 50  * i
         to  = frm + 50
