@@ -75,7 +75,7 @@ def get_leaves(tree, min_, max_):
             leaf["min"] = list_leaf[i-1]["max"]
         leaf["max"] = threshold
         if np.isinf(leaf["max"]):
-            leaf["max"] = max_  0.0001
+            leaf["max"] = max_ + 0.0001 #
         list_leaf[i] = leaf
     return list_leaf
 
