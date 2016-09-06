@@ -18,7 +18,7 @@ if __name__ == '__main__':
                                      "phase1_dump",
                                      "sp500_base1.pkl")
     if not os.path.exists(fphase1):
-        feat_select.phase1_dump("base1", "sp500Top50")
+        feat_select.phase1_dump("base1", "sp500")
     df = pd.read_pickle(fphase1)
 
     f = open(os.path.join(dataroot, "feat_select_phase1_sp500.ana"), "w")
