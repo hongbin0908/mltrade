@@ -231,14 +231,14 @@ def apply(dfmetas, df, label, subfix):
     return dfmetas.merge(df2, left_on=["name", "fname", "start", "end"],
                             right_on=["name", "fname", "start", "end"],
                             suffixes = ("",subfix))
-def ana_apply(df, suffix, f):
+def ana_apply(df, suffix, setname,f):
     df1 = df[df.direct == 1]
     rate1 = len(df1[df1["direct%s" % suffix] == 1]) * 1.0 / len(df1)
 
     df2 = df[df.direct == -1]
     rate2 = len(df2[df2["direct%s"% suffix] == -1]) * 1.0 / len(df2)
 
-    print >> f, "%.4f,%.4f" % (rate1, rate2)
+    print >> f, "|%s|%.4f|%.4f|" % (setname,rate1, rate2)
 
 def ana2(df,f):
     df1 = df[df.direct == 1]
