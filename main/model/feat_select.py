@@ -142,6 +142,7 @@ def feat_meta(feat, df, label):
 
     for i in range(len(rlt["range"])):
         cur_range = rlt["range"][i]
+        print rlt["n_samples"][i],cur_range,len(df[(df[feat]>=cur_range[0])&(df[feat]<cur_range[1])])
         assert rlt["n_samples"][i] == len(df[(df[feat]>=cur_range[0])&(df[feat]<cur_range[1])])
     return rlt
 
