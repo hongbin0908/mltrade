@@ -4,6 +4,7 @@
 
 import os,sys
 import multiprocessing
+import .feat_select  as feat_select
 
 
 
@@ -12,6 +13,14 @@ root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
 
 
+def phase1_dump(taname, setname):
+    dfTa = feat_select.load_feat(taname, setname)
+    (phase1, phase2, phase3) = feat_select.split_dates(dfTa)
+    dfmetas = flat_metas(get_metas(phase1))
+    outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
+    dfmetas.to_pickle(os.path.join(outdir, "%s_%s.pkl" % (setname, taname)))
 
 if __name__ == '__main__':
     pool = multiprocessing.Pool(processes = int(10) )
@@ -19,11 +28,14 @@ if __name__ == '__main__':
     for i in range(10):
         frm = 50  * i
         to  = frm + 50
-        cmdstr = """
-                  python main/model/feat_select.py sp500R%dT%d base1
-                  """ % (frm, to)
-        print cmdstr
-        results.append(pool.apply_async(os.system, (cmdstr,)))
+        #cmdstr = """
+        #          python main/model/feat_select.py sp500R%dT%d base1
+        #          """ % (frm, to)
+        #print cmdstr
+        setname = "sp500R%dT%d" % (frm, to)
+        taname = "base1"
+
+        results.append(pool.apply_async(phase1_dump, (taname, setname)))
     for result in results:
         print result.get()
 
