@@ -14,13 +14,21 @@ from main.model import feat_select
 dataroot = os.path.join(root, "data", "feat_select")
 
 if __name__ == '__main__':
+    fout = os.path.join(dataroot,
+                        "feat_select_phase1_sp500_apply_future.ana")
+    f = open(fout, "w")
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
                               "sp500_base1_stable.pkl"))
 
-    assert 68 == len(df[df.direct == 1])
-    assert 83 == len(df[df.direct == -1])
+    work(df, f)
+    df = pd.read_pickle(os.path.join(dataroot,
+                              "phase1_dump",
+                              "sp500_base1.pkl"))
+    work(df, f)
+    f.close()
 
+def work(df, f):
     for i in range(10):
         frm = 50  * i
         to  = frm + 50
@@ -30,11 +38,6 @@ if __name__ == '__main__':
             feat_select.split_dates(feat_select.load_feat(taname, setname))
         df2 = feat_select.apply(df,phase2, "label5", "_p2")
         df2 = feat_select.apply(df2,phase3, "label5", "_p3")
-
-        fout = os.path.join(dataroot,
-                            "feat_select_phase1_sp500_apply_future.ana")
-        if i == 0:
-            with open(fout, "w") as f:
-                feat_select.ana2(df2, f, setname)
+        feat_select.ana2(df2, f, setname)
 
 
