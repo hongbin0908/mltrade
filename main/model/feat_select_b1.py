@@ -4,13 +4,13 @@
 
 import os,sys
 import multiprocessing
-from ..model import feat_select
-
-
 
 local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
+
+from root.model import feat_select
+
 
 
 def phase1_dump(taname, setname):
