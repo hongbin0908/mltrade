@@ -29,6 +29,7 @@ if __name__ == '__main__':
         (phase1, phase2, phase3) = \
             feat_select.split_dates(feat_select.load_feat(taname, setname))
         df2 = feat_select.apply(df,phase2, "label5", "_p2")
+        print df2.head()
         df2 = feat_select.apply(df,phase3, "label5", "_p3")
 
         fout = os.path.join(dataroot,
