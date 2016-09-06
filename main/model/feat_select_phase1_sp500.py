@@ -27,13 +27,16 @@ if __name__ == '__main__':
         to  = frm + 50
         setname = "sp500R%dT%d" % (frm, to)
         taname = "base1"
-        df2 = feat_select.apply(df,
-                feat_select.split_dates(feat_select.load_feat(taname, setname))[0],
-                "label5", "_p1")
-        df2.to_pickle(os.path.join(dataroot,
+        filename = os.path.join(dataroot,
                     "phase1_dump",
-                    "sp500_base1_apply_phase1_%s_%s.pkl" % (setname, taname))
-                    )
-        #feat_select.ana_apply(df2,"_p1",f)
-        #print >>f, "="*8
+                    "sp500_base1_apply_phase1_%s_%s.pkl" % (setname, taname)
+                   )
+        if not os.path.exists(filename):
+            df2 = feat_select.apply(df,
+                    feat_select.split_dates(feat_select.load_feat(taname, setname))[0],
+                    "label5", "_p1")
+
+            df2.to_pickle(filename)
+            #feat_select.ana_apply(df2,"_p1",f)
+            #print >>f, "="*8
     f.close()
