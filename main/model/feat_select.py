@@ -197,14 +197,13 @@ def ana_fmetas(df,taname, setname,f):
     direct_0_num =  len(df[df.direct == 0])
 
 
-    with open(outfile, "w") as f:
 
-        print >> f, "delta_dis: |%s|%.8f|%.8f|%.4f|%.4f|%.4f|%.4f|" % (setname,
-                                    max_score, mean_score,
-                                    max_p_rate, mean_p_rate,
-                                    max_n_rate, mean_n_rate)
-        assert len(df) == direct_p_num + direct_n_num + direct_0_num
-        print >> f, "direct_dis: |%s|%d|%d|%d|%d|" % (setname,
+    print >> f, "delta_dis: |%s|%.8f|%.8f|%.4f|%.4f|%.4f|%.4f|" % (setname,
+                                max_score, mean_score,
+                                max_p_rate, mean_p_rate,
+                                max_n_rate, mean_n_rate)
+    assert len(df) == direct_p_num + direct_n_num + direct_0_num
+    print >> f, "direct_dis: |%s|%d|%d|%d|%d|" % (setname,
                               len(df), direct_p_num, direct_n_num, direct_0_num)
 @time_me
 def apply(dfmetas, df, label, subfix):
