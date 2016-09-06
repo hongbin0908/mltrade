@@ -45,6 +45,8 @@ if __name__ == '__main__':
         abs_direct_p_set = abs_direct_p_set.intersection(cur_set)
         print len(abs_direct_p_set)
     for name in abs_direct_p_set:
-        print df[df.name == name][["fname", "start", "end"]]
+        for i, each in df[df.name == name].iterrows():
+            print each["fname"], each["start"],each["end"]
+            assert i < 1
 
     f.close()
