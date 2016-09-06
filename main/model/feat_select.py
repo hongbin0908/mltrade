@@ -67,8 +67,7 @@ def get_leaves(tree, min_, max_):
         leaf["value"] = tree.tree_.value[node_id][0]
         p1 = leaf["value"][0]/leaf["n_samples"]
         p2 = leaf["value"][1]/leaf["n_samples"]
-        print leaf["value"][0], leaf["value"][1], leaf["impurity"],1- p1*p1 -p2*p2
-        assert leaf["impurity"] == 1- p1*p1 -p2*p2
+        assert leaf["impurity"] / (1- p1*p1 -p2*p2) > 0.00001
 
         if i == 0:
             leaf["min"] = min_ - 0.0001
