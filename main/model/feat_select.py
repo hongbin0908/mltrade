@@ -67,7 +67,7 @@ def get_leaves(tree, min_, max_):
         leaf["value"] = tree.tree_.value[node_id][0]
         p1 = leaf["value"][0]/leaf["n_samples"]
         p2 = leaf["value"][1]/leaf["n_samples"]
-        assert leaf["impurity"] / (1- p1*p1 -p2*p2) > 0.00001
+        assert abs(leaf["impurity"] - (1- p1*p1 -p2*p2)) < 0.00001
 
         if i == 0:
             leaf["min"] = min_ - 0.0001
@@ -132,7 +132,7 @@ def feat_meta(feat, df, label):
     rlt["impurity"] = tree.tree_.impurity[0]
     p1 = 1.0*len(df[df[label]>1.0])/len(df)
     p2 = 1.0*len(df[df[label]<1.0])/len(df)
-    assert rlt["impurity"] == 1- p1*p1 -p2*p2
+    assert abs(rlt["impurity"] - (1- p1*p1 -p2*p2)) < 0.0001
     rlt["range"] = leaves_range(leaves)
     rlt["children_p"] = leaves_p(leaves)
     rlt["children_n"] = [(1-each) for each in leaves_p(leaves)]
