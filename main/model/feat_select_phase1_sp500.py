@@ -21,6 +21,9 @@ if __name__ == '__main__':
                                      "phase1_dump",
                                      "sp500_base1.pkl"))
     feat_select.ana_fmetas(df, "base1", "sp500", f)
+
+    abs_direct_p_set = set(df[df.direct == 1].name.unique())
+    print abs_direct_p_set
     print >>f, "="*8
     for i in range(10):
         frm = 50  * i
@@ -37,6 +40,12 @@ if __name__ == '__main__':
                     "label5", "_p1")
 
             df2.to_pickle(filename)
+        df2 = pd.read_pickle(filename)
+        cur_set = df2[df2.direct_p1 == 1].name.unique()
+        print cur_set
+        abs_direct_p_set = abs_direct_p_set.intersection(cur_set)
+        print abs_direct_p_set
+
             #feat_select.ana_apply(df2,"_p1",f)
             #print >>f, "="*8
     f.close()
