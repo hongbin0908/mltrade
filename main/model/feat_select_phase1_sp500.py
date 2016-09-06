@@ -52,7 +52,7 @@ if __name__ == '__main__':
         abs_direct_n_set = abs_direct_n_set.intersection(cur_n_set)
     df.loc[:,"istable"] = df.apply(lambda row: 1 if row["name"] in abs_direct_p_set else \
              (1 if row["name"] in abs_direct_n_set else 0), axis = 1)
-    df.loc[:, "direct"] = df.apply(lambda row: 0 if row["stable"] == 0 else row["direct"], axis=1)
+    df.loc[:, "direct"] = df.apply(lambda row: 0 if row["isstable"] == 0 else row["direct"], axis=1)
     df.to_pickle(os.path.join(dataroot,
                               "phase1_dump",
                               "sp500_base1_stable.pkl"))
