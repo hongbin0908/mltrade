@@ -33,7 +33,8 @@ if __name__ == '__main__':
 
         fout = os.path.join(dataroot,
                             "feat_select_phase1_sp500_apply_future.ana")
-        with open(fout, "w") as f:
-            feat_select.ana2(df2, f, setname)
+        if i == 0:
+            with open(fout, "w") as f:
+                feat_select.ana2(df2, f, setname)
 
 
