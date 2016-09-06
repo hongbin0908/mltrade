@@ -9,7 +9,7 @@ local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
 
-from root.model import feat_select
+from main.model import feat_select
 
 
 
