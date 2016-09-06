@@ -70,12 +70,12 @@ def get_leaves(tree, min_, max_):
         assert abs(leaf["impurity"] - (1- p1*p1 -p2*p2)) < 0.00001
 
         if i == 0:
-            leaf["min"] = min_ - 0.0001
+            leaf["min"] = min_
         else:
             leaf["min"] = list_leaf[i-1]["max"]
         leaf["max"] = threshold
         if np.isinf(leaf["max"]):
-            leaf["max"] = max_# + 0.0001
+            leaf["max"] = max_  0.0001
         list_leaf[i] = leaf
     return list_leaf
 
