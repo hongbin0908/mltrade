@@ -23,6 +23,7 @@ if __name__ == '__main__':
     feat_select.ana_fmetas(df, "base1", "sp500", f)
 
     abs_direct_p_set = set(df[df.direct == 1].name.unique())
+    print len(abs_direct_p_set)
     print >>f, "="*8
     for i in range(10):
         frm = 50  * i
