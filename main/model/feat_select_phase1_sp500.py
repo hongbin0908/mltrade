@@ -3,7 +3,7 @@
 # @author  Bin Hong
 
 import os,sys
-import multiprocessing
+import pandas as pd
 
 local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
