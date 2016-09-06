@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
             df2.to_pickle(filename)
         df2 = pd.read_pickle(filename)
-        feat_select.ana_apply(df, "_p1", setname, f)
+        feat_select.ana_apply(df2, "_p1", setname, f)
         cur_p_set = set(df2[df2.direct_p1 == 1].name.unique())
         cur_n_set = set(df2[df2.direct_p1 == -1].name.unique())
         abs_direct_p_set = abs_direct_p_set.intersection(cur_p_set)
