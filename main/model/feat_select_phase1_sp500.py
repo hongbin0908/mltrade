@@ -44,7 +44,7 @@ if __name__ == '__main__':
         cur_set = set(df2[df2.direct_p1 == 1].name.unique())
         abs_direct_p_set = abs_direct_p_set.intersection(cur_set)
         print len(abs_direct_p_set)
+    for name in abs_direct_p_set:
+        print df[df.name == name][["fname", "start", "end"]]
 
-            #feat_select.ana_apply(df2,"_p1",f)
-            #print >>f, "="*8
     f.close()
