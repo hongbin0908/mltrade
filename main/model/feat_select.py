@@ -233,10 +233,10 @@ def apply(dfmetas, df, label, subfix):
                             suffixes = ("",subfix))
 def ana_apply(df, suffix, f):
     df1 = df[df.direct == 1]
-    rate1 = len(df1[df1["direct_%s" % suffix] == 1]) * 1.0 / len(df1)
+    rate1 = len(df1[df1["direct%s" % suffix] == 1]) * 1.0 / len(df1)
 
     df2 = df[df.direct == -1]
-    rate2 = len(df2[df2["direct_%s"% suffix] == -1]) * 1.0 / len(df2)
+    rate2 = len(df2[df2["direct%s"% suffix] == -1]) * 1.0 / len(df2)
 
     print >> f, "%.4f,%.4f" % (rate1, rate2)
 

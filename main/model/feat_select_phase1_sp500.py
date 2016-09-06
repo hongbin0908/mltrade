@@ -14,6 +14,7 @@ from main.model import feat_select
 dataroot = os.path.join(root, "data", "feat_select")
 
 if __name__ == '__main__':
+    # TODO check if file exsits
     # df = feat_select.phase1_dump("base1", "sp500")
     f = sys.stdout
     df = pd.read_pickle(os.path.join(dataroot,
