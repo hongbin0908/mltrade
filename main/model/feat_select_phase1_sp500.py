@@ -18,8 +18,7 @@ if __name__ == '__main__':
     df = pd.read_pickle(os.path.join(dataroot,
                                      "phase1_dump",
                                      "sp500_base1.pkl"))
-    with open(sys.stdout, "w") as f:
-        feat_select.ana_fmetas(df, "base1", "sp500", f)
+    feat_select.ana_fmetas(df, "base1", "sp500", sys.stdout)
         print >>f, "="*8
     for i in range(10):
         frm = 50  * i
