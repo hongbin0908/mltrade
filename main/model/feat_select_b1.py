@@ -3,6 +3,7 @@
 # @author  Bin Hong
 
 import os,sys
+import multiprocessing
 
 
 
@@ -13,6 +14,8 @@ sys.path.append(root)
 
 
 if __name__ == '__main__':
+    pool = multiprocessing.Pool(processes = int(10) )
+    results = []
     for i in range(10):
         frm = 50  * i
         to  = frm + 50
@@ -20,4 +23,7 @@ if __name__ == '__main__':
                   python main/model/feat_select.py sp500R%dT%d base1
                   """ % (frm, to)
         print cmdstr
-        os.system(cmdstr)
+        results.append(pool.apply_async(os.system, (cmdstr,)))
+    for result in results:
+        print result.get()
+
