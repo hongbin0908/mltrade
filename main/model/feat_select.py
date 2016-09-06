@@ -231,6 +231,15 @@ def apply(dfmetas, df, label, subfix):
     return dfmetas.merge(df2, left_on=["name", "fname", "start", "end"],
                             right_on=["name", "fname", "start", "end"],
                             suffixes = ("",subfix))
+def ana_apply(df, suffix, f):
+    df1 = df[df.direct == 1]
+    rate1 = len(df1[df1["direct_%s" % suffix] == 1]) * 1.0 / len(df1)
+
+    df2 = df[df.direct == -1]
+    rate2 = len(df2[df2["direct_%s"% suffix] == -1]) * 1.0 / len(df2)
+
+    print >> f, "%.4f,%.4f" % (rate1, rate2)
+
 def ana2(df,f):
     df1 = df[df.direct == 1]
     #for i, each in df1.iterrows():
@@ -248,7 +257,7 @@ def ana2(df,f):
 
 def phase1_dump(taname, setname):
     dfTa = load_feat(taname, setname)
-    (phase1, phase2, phase3) = split_dates(dfTa)
+    (phase1, phase2, phase3) ana= split_dates(dfTa)
     dfmetas = flat_metas(get_metas(phase1))
     outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
     if not os.path.exists(outdir):

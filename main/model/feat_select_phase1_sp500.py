@@ -29,5 +29,5 @@ if __name__ == '__main__':
         df2 = feat_select.apply(df,
                 feat_select.split_dates(feat_select.load_feat(taname, setname))[0],
                 "label5", "_p1")
-        feat_select.ana2(df2,f)
+        feat_select.ana_apply(df2,"_p1",f)
         print >>f, "="*8
