@@ -27,7 +27,7 @@ if __name__ == '__main__':
         setname = "sp500R%dT%d" % (frm, to)
         taname = "base1"
         df2 = feat_select.apply(df,
-                feat_select.split_dates(load_feat(setname, tanme))[0],
+                feat_select.split_dates(feat_select.load_feat(setname, tanme))[0],
                 "label5", "_p1")
         feat_select.ana2(df2,f)
         print >>f, "="*8
