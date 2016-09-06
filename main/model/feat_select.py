@@ -175,7 +175,7 @@ def flat_metas(metas):
     return df
 
 @time_me
-def ana_fmetas(df,taname, setname):
+def ana_fmetas(df,taname, setname,f):
     head = df.sort_values(["score"], ascending=False).head(40)
     for i, each in head.iterrows():
         print >>f, "%s,%s,%s,%s,%d,%.4f,%.4f,%d" % (each["name"],each["fname"],
@@ -196,7 +196,6 @@ def ana_fmetas(df,taname, setname):
     direct_n_num =  len(df[df.direct == -1])
     direct_0_num =  len(df[df.direct == 0])
 
-    outfile = os.path.join(dataroot, "phase1_dump", "%s_%s.ana" % (setname, taname))
 
     with open(outfile, "w") as f:
 
@@ -235,14 +234,14 @@ def apply(dfmetas, df, label, subfix):
                             suffixes = ("",subfix))
 def ana2(df,f):
     df1 = df[df.direct == 1]
-    for i, each in df1.iterrows():
-        print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
+    #for i, each in df1.iterrows():
+    #    print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
     rate1_p2 = len(df1[df1.direct_p2 == 1])*1.0/len(df1)
     rate1_p3 = len(df1[df1.direct_p3 == 1])*1.0/len(df1)
 
     df2 = df[df.direct == -1]
-    for i, each in df2.iterrows():
-        print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
+    #for i, each in df2.iterrows():
+    #    print >> f, each["name"], each["direct"], each["direct_p2"], each["direct_p3"]
     rate2_p2 = len(df2[df2.direct_p2 == -1]) * 1.0 / len(df2)
     rate2_p3 = len(df2[df2.direct_p3 == -1]) * 1.0 / len(df2)
 
