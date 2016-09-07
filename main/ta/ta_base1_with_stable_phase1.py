@@ -22,9 +22,7 @@ import main.ta.ta_cdl as cdl
 
 def main(df):
     df = base1.main(df)
-    df.reset_index(inplace=True)
-    print df.head()
-    print  df.shape
+    df.reset_index(inplace=True,drop=True)
 
     dfStable = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
@@ -42,6 +40,5 @@ def main(df):
                      1 if ((row[fname] >= start) and (row[fname] < end)) else 0, axis=1)
         tobe.append(pd.Series(new, name = name))
     df = df.join(pd.DataFrame(tobe).transpose())
-    print  df.shape
     return df
 

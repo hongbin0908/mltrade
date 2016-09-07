@@ -88,9 +88,9 @@ def delta_impurity(tree, leaves):
     delta = root_impurity - delta
     return delta
 
-def get_tree():
+def get_tree(depth):
     tree = DecisionTreeClassifier(min_samples_leaf=10000,
-                                  min_samples_split=40000, max_depth=1)
+                                  min_samples_split=40000, max_depth=depth)
     return tree
 def leaves_n_samples(leaves):
     n_samples = []
@@ -110,9 +110,9 @@ def leaves_p(leaves):
         assert each["value"][0] + each["value"][1] == each["n_samples"]
     return p_
 
-def feat_meta(feat, df, label):
+def feat_meta(feat, df, label, depth = 1):
     rlt = {}
-    tree = get_tree()
+    tree = get_tree(depth)
     npFeat = df[[feat]].values.copy()
     npLabel = df[label].values.copy()
     npLabel[npLabel > 1.0] = 1
@@ -148,7 +148,7 @@ def feat_meta(feat, df, label):
 
 
 @time_me
-def get_metas(dfTa):
+def get_metas(dfTa, depth):
     #pool = multiprocessing.Pool(processes=20)
     feat_names = base.get_feat_names(dfTa)
     idx = 0
@@ -159,7 +159,7 @@ def get_metas(dfTa):
             if idx > 10:
                 break
         #results.append(pool.apply_async(feat_meta, (cur_feat, dfTa, "label5")))
-        results.append(feat_meta(cur_feat, dfTa, "label5"))
+        results.append(feat_meta(cur_feat, dfTa, "label5", depth))
         print "%d done!" % idx
     return [result for result in results]
 
@@ -267,10 +267,10 @@ def ana2(df,f, setname):
 
     print >> f, "|%s|%.4f|%.4f|%.4f|%.4f|" % (setname, rate1_p2, rate1_p3, rate2_p2, rate2_p3)
 
-def phase1_dump(taname, setname):
+def phase1_dump(taname, setname, depth):
     dfTa = load_feat(taname, setname)
     (phase1, phase2, phase3) = split_dates(dfTa)
-    dfmetas = flat_metas(get_metas(phase1))
+    dfmetas = flat_metas(get_metas(phase1,depth))
     outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
     if not os.path.exists(outdir):
         os.makedirs(outdir)
@@ -285,13 +285,13 @@ def main(args):
     dfmetas = flat_metas(get_metas(phase1))
     outname = os.path.join(root, "data",
                            "feat_select",
-                           "feat_select_%s_%s" % (args.setname, args.taname))
+                           "feat_select_%s_%s_%d" % (args.setname, args.taname,args.depth))
     if not os.path.exists(os.path.dirname(outname)):
         os.makedirs(os.path.dirname(outname))
     with open(outname, "w") as fout:
         ana_fmetas(dfmetas, fout, args)
 
-
+    sys.exit(0)
     dfmetas = apply(dfmetas, phase2, "label5", "_p2")
     dfmetas = apply(dfmetas, phase3, "label5", "_p3")
 
@@ -316,8 +316,8 @@ if __name__ == '__main__':
 
     #parser.add_argument('--label', dest='labelname', action='store',
     #                    default='label3', help="the label name")
-    #parser.add_argument('--part', dest='part', action='store',
-    #                    default=2, type=int)
+    parser.add_argument('--depth', dest='depth', action='store',
+                        default=1, type=int)
     parser.add_argument('setname', help="setname")
     parser.add_argument('taname', help="taname")
 

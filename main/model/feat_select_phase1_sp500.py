@@ -13,10 +13,14 @@ from main.model import feat_select
 
 dataroot = os.path.join(root, "data", "feat_select")
 
+#config
+depth = 2
+#end
+
 if __name__ == '__main__':
     fphase1 = os.path.join(dataroot,
                                      "phase1_dump",
-                                     "sp500_base1.pkl")
+                                     "sp500_base1_%d.pkl" % depth)
     if not os.path.exists(fphase1):
         feat_select.phase1_dump("base1", "sp500")
     df = pd.read_pickle(fphase1)
