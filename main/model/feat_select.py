@@ -274,7 +274,7 @@ def phase1_dump(taname, setname, depth):
     outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
     if not os.path.exists(outdir):
         os.makedirs(outdir)
-    dfmetas.to_pickle(os.path.join(outdir, "%s_%s.pkl" % (setname, taname)))
+    dfmetas.to_pickle(os.path.join(outdir, "%s_%s_%d.pkl" % (setname, taname, depth)))
     return dfmetas
 
 @time_me
