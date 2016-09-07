@@ -25,7 +25,7 @@ if __name__ == '__main__':
         feat_select.phase1_dump("base1", "sp500",depth)
     df = pd.read_pickle(fphase1)
 
-    f = open(os.path.join(dataroot, "feat_select_phase1_sp500.ana"), "w")
+    f = open(os.path.join(dataroot, "feat_select_phase1_sp500_%d.ana" % depth), "w")
     feat_select.ana_fmetas(df, "base1", "sp500", f)
 
     abs_direct_p_set = set(df[df.direct == 1].name.unique())
