@@ -40,6 +40,7 @@ def main(df):
     df = base1.main(df)
     df.reset_index(inplace=True,drop=True)
     orig_feats = base.get_feat_names(df)
+    print df.shape
     df = merge(df, 1)
     print df.shape
     df = merge(df, 2)
