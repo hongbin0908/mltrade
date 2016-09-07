@@ -33,7 +33,9 @@ def merge(df, depth):
         end = each["end"]
         new = df.apply(lambda row:
                      1 if ((row[fname] >= start) and (row[fname] < end)) else 0, axis=1)
+        print ".",
         tobe.append(pd.Series(new, name = name))
+    print
     df = df.join(pd.DataFrame(tobe).transpose())
     return df
 def main(df):
@@ -47,5 +49,6 @@ def main(df):
     print df.shape
     for each in orig_feats:
         del df[each]
+    print df.shape
     return df
 
