@@ -10,13 +10,10 @@ root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
 
 from main.model import feat_select
+from maon.model import feat_select_common as fc
 
 dataroot = os.path.join(root, "data", "feat_select")
 
-# config
-depth = 2
-basename = "sp500_base1_%d_stable.pkl" % depth
-#end
 
 def work(df, f):
     for i in range(10):
@@ -40,21 +37,25 @@ def work2(df, f):
     feat_select.ana2(df2, f, setname)
 
 if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='No desc')
+
+    parser.add_argument('--depth', dest='depth', action='store',
+                        default=1, type=int)
+    args = parser.parse_args()
     fout = os.path.join(dataroot,
-                        "feat_select_phase1_sp500_%d_apply_future.ana" % depth)
+                        "feat_select_phase1_sp500_%d_apply_future.ana" % args.depth)
     f = open(fout, "w")
     print >> f, "## sp500_base1_stable.pkl"
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
-                              "sp500_base1_%d_stable.pkl" % depth))
+                              "sp500_base1_%d_stable.pkl" % args.depth))
 
     work(df, f)
     print >> f, "## sp500_base1.pkl"
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
-                              "sp500_base1_%d.pkl" % depth))
+                              "sp500_base1_%d.pkl" % args.depth))
     work(df, f)
     f.close()
-
-
-
+    print fout

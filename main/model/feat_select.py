@@ -163,13 +163,13 @@ def get_metas(dfTa, depth):
         print "%d done!" % idx
     return [result for result in results]
 
-def flat_metas(metas):
+def flat_metas(metas, depth):
     fmetas = []
     for each in metas:
         for i, term in enumerate(each["range"]):
             d = {}
             d["fname"] = each["name"]
-            d["name"] = "%s_%d" % (each["name"],i)
+            d["name"] = "%s_d%d_%d" % (each["name"], depth, i)
             d["start"] = each["range"][i][0]
             d["end"] = each["range"][i][1]
             d["p_chvfa"] = each["p_chvfa"][i]
@@ -270,7 +270,7 @@ def ana2(df,f, setname):
 def phase1_dump(taname, setname, depth):
     dfTa = load_feat(taname, setname)
     (phase1, phase2, phase3) = split_dates(dfTa)
-    dfmetas = flat_metas(get_metas(phase1,depth))
+    dfmetas = flat_metas(get_metas(phase1,depth),depth)
     outdir = os.path.join(root, "data", "feat_select", "phase1_dump")
     if not os.path.exists(outdir):
         os.makedirs(outdir)

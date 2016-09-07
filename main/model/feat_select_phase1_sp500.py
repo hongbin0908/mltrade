@@ -1,10 +1,8 @@
 #! /usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 # @author  Bin Hong
-
 import os,sys
 import pandas as pd
-
 local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
@@ -13,19 +11,21 @@ from main.model import feat_select
 
 dataroot = os.path.join(root, "data", "feat_select")
 
-#config
-depth = 2
-#end
-
 if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='No desc')
+
+    parser.add_argument('--depth', dest='depth', action='store',
+                        default=1, type=int)
+    args = parser.parse_args()
     fphase1 = os.path.join(dataroot,
                                      "phase1_dump",
-                                     "sp500_base1_%d.pkl" % depth)
+                                     "sp500_base1_%d.pkl" % args.depth)
     if not os.path.exists(fphase1):
-        feat_select.phase1_dump("base1", "sp500",depth)
+        feat_select.phase1_dump("base1", "sp500",args.depth)
     df = pd.read_pickle(fphase1)
 
-    f = open(os.path.join(dataroot, "feat_select_phase1_sp500_%d.ana" % depth), "w")
+    f = open(os.path.join(dataroot, "feat_select_phase1_sp500_%d.ana" % args.depth), "w")
     feat_select.ana_fmetas(df, "base1", "sp500", f)
 
     abs_direct_p_set = set(df[df.direct == 1].name.unique())
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         taname = "base1"
         filename = os.path.join(dataroot,
                     "phase1_dump",
-                    "sp500_base1_apply_phase1_%s_%s_%d.pkl" % (setname, taname,depth)
+                    "sp500_base1_apply_phase1_%s_%s_%d.pkl" % (setname, taname,args.depth)
                    )
         if not os.path.exists(filename):
             df2 = feat_select.apply(df,
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     df.loc[:, "direct"] = df.apply(lambda row: 0 if row["istable"] == 0 else row["direct"], axis=1)
     df.to_pickle(os.path.join(dataroot,
                               "phase1_dump",
-                              "sp500_base1_%d_stable.pkl" % depth))
+                              "sp500_base1_%d_stable.pkl" % args.depth))
     print "|%d|%d|%d|" % (len(orig_direct_p_set), len(abs_direct_p_set), len(orig_direct_p_set- abs_direct_p_set))
     print "|%d|%d|%d|" % (len(orig_direct_n_set), len(abs_direct_n_set), len(orig_direct_n_set- abs_direct_n_set))
     print >> f, "## stable feats on postive direct"
