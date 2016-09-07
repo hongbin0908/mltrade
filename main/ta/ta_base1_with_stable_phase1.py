@@ -11,7 +11,7 @@ local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
 
-dataroot = os.path.join(root, "/data", "feat_select")
+dataroot = os.path.join(root, "data", "feat_select")
 
 from main.utils import time_me
 import main.pandas_talib as pta
