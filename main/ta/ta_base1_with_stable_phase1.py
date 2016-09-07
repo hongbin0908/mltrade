@@ -31,11 +31,12 @@ def main(df):
     dfStable = dfStable[dfStable.direct != 0]
     for i, each in  dfStable.iterrows():
         name = each["name"]
+        print name
         fname = each["fname"]
         start = each["start"]
         end = each["end"]
-        df.loc[:,name] = dfStable.apply(lambda row:
-                     1 if ((row[fname] >= start) and (row[fname] < end)) else 0)
+        #df.loc[:,name] = dfStable.apply(lambda row:
+        #             1 if ((row[fname] >= start) and (row[fname] < end)) else 0)
     print df.shape
     return df
 
