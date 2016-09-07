@@ -34,7 +34,7 @@ def main(df):
         fname = each["fname"]
         start = each["start"]
         end = each["end"]
-        df.loc[:,name] = dfStable.apply(lambda row:
+        df.loc[:,name] = df.apply(lambda row:
                      1 if ((row[fname] >= start) and (row[fname] < end)) else 0, axis=1)
     print df.shape
     return df
