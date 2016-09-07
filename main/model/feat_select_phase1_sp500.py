@@ -34,6 +34,7 @@ if __name__ == '__main__':
     orig_direct_p_set = abs_direct_p_set.copy()
     orig_direct_n_set = abs_direct_n_set.copy()
     print len(abs_direct_p_set)
+    print len(abs_direct_n_set)
     print >>f, "="*8
     for i in range(10):
         frm = 50  * i
