@@ -35,6 +35,7 @@ def merge(df, depth):
                      1 if ((row[fname] >= start) and (row[fname] < end)) else 0, axis=1)
         tobe.append(pd.Series(new, name = name))
     df = df.join(pd.DataFrame(tobe).transpose())
+    return df
 def main(df):
     df = base1.main(df)
     df.reset_index(inplace=True,drop=True)
