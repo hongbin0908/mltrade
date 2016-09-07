@@ -9,7 +9,7 @@ clsname=RFCv1n2000md6msl1000
 ./main/pred/pred_b.py  `./tool/model_name.py ${setname} ${taname} ${clsname}`  ${setname} ${taname} || exit 1
 
 setname=sp500
-taname=stable_phase1
+taname=stable_phase1_2
 clsname=RFCv1n2000md6msl1000
 ./main/yeod/yeod.py index_dow  -p1 || exit 1
 ./main/yeod/yeod.py ${setname}  -p10 || exit 1
