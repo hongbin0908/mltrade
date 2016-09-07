@@ -43,7 +43,7 @@ if __name__ == '__main__':
         taname = "base1"
         filename = os.path.join(dataroot,
                     "phase1_dump",
-                    "sp500_base1_apply_phase1_%s_%s.pkl" % (setname, taname)
+                    "sp500_base1_apply_phase1_%s_%s_%d.pkl" % (setname, taname,depth)
                    )
         if not os.path.exists(filename):
             df2 = feat_select.apply(df,
