@@ -11,7 +11,7 @@ local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
 
-dataroot = os.path.join(root, "data", "feat_select")
+dataroot = os.path.join(root, "/data", "feat_select")
 
 from main.utils import time_me
 import main.pandas_talib as pta
@@ -31,12 +31,11 @@ def main(df):
     dfStable = dfStable[dfStable.direct != 0]
     for i, each in  dfStable.iterrows():
         name = each["name"]
-        print name
         fname = each["fname"]
         start = each["start"]
         end = each["end"]
-        #df.loc[:,name] = dfStable.apply(lambda row:
-        #             1 if ((row[fname] >= start) and (row[fname] < end)) else 0)
+        df.loc[:,name] = dfStable.apply(lambda row:
+                     1 if ((row[fname] >= start) and (row[fname] < end)) else 0, axis=1)
     print df.shape
     return df
 
