@@ -72,7 +72,7 @@ def ROD(df, n, price = 'close'):
     M = df[price] / df[price].shift(1)
     result = pd.Series(M.shift(n), name = 'ta_ROD_' + str(n))
     return out(SETTINGS, df, result)
-    
+
 def ROC(df, n, price='close'):
     """
     Rate of Change
@@ -172,7 +172,7 @@ def WILLR(df, n=14):
     """
     ref: http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:williams_r
     """
-    dftmp = df[['high', 'low','close']] 
+    dftmp = df[['high', 'low','close']]
     dftmp.loc[:,"hhigh"] = df['high'].rolling(n).max()
     dftmp.loc[:,"llow"] = df['low'].rolling(n).min()
     result = pd.Series((dftmp["hhigh"]-dftmp['close'])/(dftmp['hhigh']-dftmp['llow'])*-100, name = "WILLR_%d" % n)
@@ -182,12 +182,12 @@ def STOCHOSC(df, n = 14):
     """
     http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:stochastic_oscillator_fast_slow_and_full
     """
-    dftmp = df[['high', 'low','close']] 
+    dftmp = df[['high', 'low','close']]
     dftmp.loc[:,"hhigh"] = df['high'].rolling(n).max()
     dftmp.loc[:,"llow"] = df['low'].rolling(n).min()
     result = pd.Series((dftmp['close']-dftmp['llow'])/(dftmp['hhigh']-dftmp['llow'])*100, name = "STOCHOSC_%d" % n)
     return out(SETTINGS, df, result)
-    
+
 
 def PDM1(df):
     def cal(row):
@@ -221,13 +221,13 @@ def MDM(df, n):
     mdm = wilder_smooth(MDM1(df), n)
     result = pd.Series(mdm, name = "MDM_%d" % n)
     return out(SETTINGS, df, result)
-    
+
 def PDI(df, n):
     pdm = PDM(df,n)
     str_ = STR(df,n)
     result = pd.Series(100*pdm/str_,name="ta_PDI_%d" % n)
     return out(SETTINGS, df, result)
-    
+
 def MDI(df, n):
     mdm = MDM(df,n)
     str_ = STR(df,n)
@@ -239,8 +239,8 @@ def TR(df):
     i = 0
     TR_l = [np.nan]
     while i < len(df) - 1:  # df.index[-1]:
-        TR = max(df.get_value(i + 1, 'high') - df.get_value(i+1, 'low'), 
-                 abs(df.get_value(i, 'close') - df.get_value(i + 1, 'low')), 
+        TR = max(df.get_value(i + 1, 'high') - df.get_value(i+1, 'low'),
+                 abs(df.get_value(i, 'close') - df.get_value(i + 1, 'low')),
                  abs(df.get_value(i, 'close') - df.get_value(i + 1, 'high'))
                  )
         TR_l.append(TR)
@@ -304,7 +304,7 @@ def DX(df, n):
     mdi = MDI(df,n)
     result = pd.Series(100*abs(pdi-mdi)/(pdi+mdi), name = "DX_%d" % n)
     return out(SETTINGS, df, result)
-    
+
 def ADX(df, n, n_ADX):
     """
     Average Directional Movement Index
