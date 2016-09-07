@@ -13,6 +13,11 @@ from main.model import feat_select
 
 dataroot = os.path.join(root, "data", "feat_select")
 
+# config
+depth = 2
+basename = "sp500_base1_%d_stable.pkl" % depth
+#end
+
 def work(df, f):
     for i in range(10):
         frm = 50  * i
@@ -36,19 +41,19 @@ def work2(df, f):
 
 if __name__ == '__main__':
     fout = os.path.join(dataroot,
-                        "feat_select_phase1_sp500_apply_future.ana")
+                        "feat_select_phase1_sp500_%d_apply_future.ana" % depth)
     f = open(fout, "w")
     print >> f, "## sp500_base1_stable.pkl"
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
-                              "sp500_base1_stable.pkl"))
+                              "sp500_base1_%d_stable.pkl" % depth))
 
-    work2(df, f)
+    work(df, f)
     print >> f, "## sp500_base1.pkl"
     df = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
-                              "sp500_base1.pkl"))
-    work2(df, f)
+                              "sp500_base1_%d.pkl" % depth))
+    work(df, f)
     f.close()
 
 

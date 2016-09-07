@@ -63,7 +63,7 @@ if __name__ == '__main__':
     df.loc[:, "direct"] = df.apply(lambda row: 0 if row["istable"] == 0 else row["direct"], axis=1)
     df.to_pickle(os.path.join(dataroot,
                               "phase1_dump",
-                              "sp500_base1_stable.pkl"))
+                              "sp500_base1_%d_stable.pkl" % depth))
     print "|%d|%d|%d|" % (len(orig_direct_p_set), len(abs_direct_p_set), len(orig_direct_p_set- abs_direct_p_set))
     print "|%d|%d|%d|" % (len(orig_direct_n_set), len(abs_direct_n_set), len(orig_direct_n_set- abs_direct_n_set))
     print >> f, "## stable feats on postive direct"
