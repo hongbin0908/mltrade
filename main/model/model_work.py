@@ -60,7 +60,7 @@ def main(args):
         print len(rows)
         dfTrain = dfTrain.reset_index(drop=True)
         dfTrain = dfTrain.ix[rows]
-    
+
     if args.repeat:
         print "repeat ..."
         toAppends = []
@@ -105,10 +105,10 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--rp', help="repeat",    dest="repeat", action="store", default=None)
     parser.add_argument('--sample', help="sample method", dest="sample", action="store", default=None)
     parser.add_argument('--scaler', help="scaler method", dest="scaler", action="store", default=None)
-    parser.add_argument('--start', dest='start', action='store', default='1700-01-01', help="model start time")
-    parser.add_argument('--end',   dest='end',   action='store', default='2009-12-31', help="model end time")
+    parser.add_argument('--start', dest='start', action='store', default='1980-01-01', help="model start time")
+    parser.add_argument('--end',   dest='end',   action='store', default='1999-12-31', help="model end time")
     parser.add_argument('--label', dest='labelname', action='store', default='label5', help="the label name")
-    
+
     parser.add_argument('setname', help = "the sym set to be ta")
     parser.add_argument('taname', help = "the sym set to be ta")
     parser.add_argument('clsname', help="the model full name")
