@@ -54,7 +54,7 @@ def main(args):
     dfTa["pred"] = npPred[:,1]
     dfTa = dfTa.sort_values(['pred'], ascending = False)
     freport,fpred = base.file_paper(args)
-    dfTa.to_csv(fpred)
+    #dfTa.to_csv(fpred)
 
     ana.main([fpred, args.top, args.thresh,freport, args.level])
     print freport
