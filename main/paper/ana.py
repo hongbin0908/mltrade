@@ -14,20 +14,7 @@ sys.path.append(root)
 
 import main.base as base
 import main.ta as ta
-
-def get_re(infile, top, thresh):
-    df = pd.read_csv(infile)
-    df['yyyy'] = df.date.str.slice(0,4)
-    df["yyyyMM"] = df.date.str.slice(0,7)
-    dfTrue = df[df["label5"] > 1.0]
-    df2 = df.sort_values(["pred"], ascending=False).head(thresh).groupby('date').head(top)
-    df2True = df2[df2["label5"] > 1.0]
-    re = \
-        df.groupby('yyyy').count().join(dfTrue.groupby('yyyy').count(), rsuffix='_dfTrue').join(df2.groupby('yyyy').count(),rsuffix='_df2').join(df2True.groupby('yyyy').count(),
-             rsuffix='_df2True')[['pred','pred_dfTrue', 'pred_df2','pred_df2True']]
-    re["rate1"] = re["pred_dfTrue"]*1.0/re["pred"]
-    re["rate2"] = re["pred_df2True"]*1.0/re["pred_df2"]
-    return re
+from main.utils import time_me
 
 
 def print_each(df, fout):
@@ -51,20 +38,8 @@ def print_each(df, fout):
         print >> fout, "%d\t" % pred_df2True,
         print >> fout
 
-def print_dis(infile, top, thresh):
-    dfAll = get_all(infile)
-    dfSelected = get_selected(infile, top. thresh)
-    dfMonth = group_by_month(df, dfSelected)
-
-def get_all(infile):
-    df = pd.read_pickle(infile)
-    df['yyyy'] = df.date.str.slice(0,4)
-    df["yyyyMM"] = df.date.str.slice(0,7)
-    return df
-
-
-def get_selected(infile, top, thresh):
-    df = pd.read_csv(infile)
+def get_selected(dfTa, top, thresh):
+    df = dfTa #pd.read_csv(infile)
     df['yyyy'] = df.date.str.slice(0,4)
     df["yyyyMM"] = df.date.str.slice(0,7)
     df2 = df[df.pred >= thresh].sort_values(["pred"], ascending=False).groupby('date').head(top)[["date", 'yyyy','yyyyMM',
@@ -96,15 +71,19 @@ def print_top_good_bad(df):
 
 def accurate(df, level):
     return len(df[df["label5"] > level ]) * 1.0 /len(df)
+
+@time_me
 def main(argv):
-    infile = argv[0]
+    dfTa = argv[0]
     top = int(argv[1])
     thresh = int(argv[2])
     outfile = argv[3]
     level = argv[4]
     with open(outfile, "w") as fout:
-        dfAll = get_all(infile)
-        dfSelected = get_selected(infile, top, thresh)
+        dfAll = dfTa #get_all(infile)
+        dfAll['yyyy'] = dfAll.date.str.slice(0,4)
+        dfAll["yyyyMM"] = dfAll.date.str.slice(0,7)
+        dfSelected = get_selected(dfTa, top, thresh)
         print >> fout, "=" * 8 , "accurate", "=" * 8
         print >> fout, "%.3f\t%.3f" % (accurate(dfAll,level), accurate(dfSelected,level))
 
@@ -118,15 +97,6 @@ def main(argv):
         print >> fout,  "=" * 8, "view of years", "=" * 8
         print >> fout, group_by_year(dfAll, dfSelected, level)
 
-        #df = get_re(infile, top, thresh)
-
-        #print "="*8, "distrubte of yyyy", '='*8
-
-        #print_dis(infile, top, thresh)
-
-        #selected = get_selected(infile, top, thresh)
-
-        ##selected.sort_values.grouby('yyyyMM').count()
         #
         print >> fout,  "="*8, "top good perfomance", '='*8
         print >> fout, dfSelected.sort_values(["pred"],ascending=False).groupby('yyyy').head(2).sort_values(['yyyy'])

@@ -54,9 +54,10 @@ def main(args):
     dfTa["pred"] = npPred[:,1]
     dfTa = dfTa.sort_values(['pred'], ascending = False)
     freport,fpred = base.file_paper(args)
-    dfTa.to_pickle(fpred)
+    #dfTa.to_pickle(fpred)
 
-    ana.main([fpred, args.top, args.thresh,freport, args.level])
+    #ana.main([fpred, args.top, args.thresh,freport, args.level])
+    ana.main([dfTa, args.top, args.thresh,freport, args.level])
     print freport
 
 if __name__ == '__main__':
