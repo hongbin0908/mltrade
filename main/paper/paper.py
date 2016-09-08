@@ -58,7 +58,7 @@ def main(args):
 
     ana.main([fpred, args.top, args.thresh,freport, args.level])
     print freport
-    
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='paper test')
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     parser.add_argument('--start', dest="start", action="store", default='2010-01-01')
     parser.add_argument('--end', dest="end", action="store", default='2016-12-31')
     parser.add_argument('--top', dest="top", action="store", type = int, default=2)
-    parser.add_argument('--thresh', dest="thresh", action="store", type = int, default=800)
+    parser.add_argument('--thresh', dest="thresh", action="store", type = float, default=0.60)
     parser.add_argument('--level', dest="level", action="store", type=float, default=1.0)
     parser.add_argument('model', help = "the full path of model")
     parser.add_argument('setname', help = "")

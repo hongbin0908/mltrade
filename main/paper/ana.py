@@ -34,13 +34,13 @@ def print_each(df, fout):
     for each in df.iterrows():
         pred = each[1]["pred"]
         pred_dfTrue = each[1]["pred_dfTrue"]
-        if np.isnan(pred_dfTrue): 
+        if np.isnan(pred_dfTrue):
             pre_dfTrue = 0
-        pred_df2 = each[1]["pred_df2"]; 
-        if np.isnan(pred_df2): 
+        pred_df2 = each[1]["pred_df2"];
+        if np.isnan(pred_df2):
             pred_df2 = 0
-        pred_df2True = each[1]["pred_df2True"] 
-        if np.isnan(pred_df2True): 
+        pred_df2True = each[1]["pred_df2True"]
+        if np.isnan(pred_df2True):
             pred_df2True = 0
         if pred_df2 > 0:
             continue
@@ -67,7 +67,7 @@ def get_selected(infile, top, thresh):
     df = pd.read_csv(infile)
     df['yyyy'] = df.date.str.slice(0,4)
     df["yyyyMM"] = df.date.str.slice(0,7)
-    df2 = df.sort_values(["pred"], ascending=False).head(thresh).groupby('date').head(top)[["date", 'yyyy','yyyyMM',
+    df2 = df[df.pred >= thresh].sort_values(["pred"], ascending=False).groupby('date').head(top)[["date", 'yyyy','yyyyMM',
         'sym', 'pred', 'label5']]
     return df2
 def group_by_month(df, df2, level):
@@ -95,7 +95,7 @@ def print_top_good_bad(df):
     print df[df["label5"] > 1.04].groupby('yyyy').head(1)
 
 def accurate(df, level):
-    return len(df[df["label5"] > level ]) * 1.0 /len(df) 
+    return len(df[df["label5"] > level ]) * 1.0 /len(df)
 def main(argv):
     infile = argv[0]
     top = int(argv[1])
@@ -109,9 +109,9 @@ def main(argv):
         print >> fout, "%.3f\t%.3f" % (accurate(dfAll,level), accurate(dfSelected,level))
 
         dfMonth = group_by_month(dfAll, dfSelected,level)
-        
+
         dfAll.groupby('sym').count
-    
+
         print >> fout,  "=" * 8 , "detail", "=" * 8
         print_each(dfMonth, fout)
 
@@ -132,6 +132,6 @@ def main(argv):
         print >> fout, dfSelected.sort_values(["pred"],ascending=False).groupby('yyyy').head(2).sort_values(['yyyy'])
         print >> fout, "="*8, "bad good perfomance", '='*8
         print >> fout, dfSelected.sort_values(["pred"],ascending=True).groupby('yyyy').head(2).sort_values(['yyyy'])
-    
+
 if __name__ == '__main__':
     main(sys.argv[1:])
