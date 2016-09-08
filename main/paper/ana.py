@@ -57,7 +57,7 @@ def print_dis(infile, top, thresh):
     dfMonth = group_by_month(df, dfSelected)
 
 def get_all(infile):
-    df = pd.read_csv(infile)
+    df = pd.read_pickle(infile)
     df['yyyy'] = df.date.str.slice(0,4)
     df["yyyyMM"] = df.date.str.slice(0,7)
     return df

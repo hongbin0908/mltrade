@@ -18,6 +18,8 @@ local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
 
+from  main.utils import time_me
+
 def get_file_list(rootdir, ext=".csv"):
     file_list = []
     for f in os.listdir(rootdir):
@@ -45,6 +47,7 @@ def get_all(taname, lsym):
         sym2df[sym] = df
     return sym2df
 
+@time_me
 def get_range(df, start ,end):
     """
     get the date between start(include) and end(*include*)
@@ -75,6 +78,7 @@ def get_merged_with_na(taname, lsym):
     return df
 
 
+@time_me
 def get_merged(taname, lsym):
     df = get_merged_with_na(taname, lsym)
     if df is None:
