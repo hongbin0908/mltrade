@@ -76,7 +76,7 @@ def accurate(df, level):
 def main(argv):
     dfTa = argv[0]
     top = int(argv[1])
-    thresh = int(argv[2])
+    thresh = float(argv[2])
     outfile = argv[3]
     level = argv[4]
     with open(outfile, "w") as fout:
