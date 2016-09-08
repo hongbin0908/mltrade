@@ -39,6 +39,7 @@ def get_feat_names(df):
     """
     return [x for x in df.columns if x.startswith('ta_')]
 
+@time_me
 def get_all(taname, lsym):
     sym2df = {}
     for sym in lsym:
