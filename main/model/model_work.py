@@ -51,7 +51,7 @@ def main(args):
     dfTa = base.get_merged(args.taname, getattr(yeod, "get_%s" % args.setname)(),args.start,args.end)
     if dfTa is None:
         return None
-    #dfTrain = build_trains(dfTa, args.start, args.end)
+    dfTrain = dfTa # build_trains(dfTa, args.start, args.end)
 
     if args.sample:
         print "sampling ..."

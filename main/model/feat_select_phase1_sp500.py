@@ -3,6 +3,8 @@
 # @author  Bin Hong
 import os,sys
 import pandas as pd
+from collections import Counter
+
 local_path = os.path.dirname(__file__)
 root = os.path.join(local_path, '..', '..')
 sys.path.append(root)
@@ -17,13 +19,16 @@ def cross_test(df, sets, dates,name,depth):
                           % (name,args.depth)), "w")
     feat_select.ana_fmetas(df, "base1", "sp500", f)
 
-    abs_direct_p_set = set(df[df.direct == 1].name.unique())
-    abs_direct_n_set = set(df[df.direct == -1].name.unique())
+    abs_direct_p_set = Counter(set(df[df.direct == 1 ].name.unique()))
+    abs_direct_n_set = Counter(set(df[df.direct == -1].name.unique()))
 
     orig_direct_p_set = abs_direct_p_set.copy()
     orig_direct_n_set = abs_direct_n_set.copy()
     print len(abs_direct_p_set)
     print len(abs_direct_n_set)
+
+    abs_direct_p_set = abs_direct_p_set + abs_direct_p_set
+    abs_direct_n_set = abs_direct_n_set + abs_direct_n_set
     print >>f, "="*8
     for s in sets:
         for d in dates:
@@ -46,11 +51,11 @@ def cross_test(df, sets, dates,name,depth):
             feat_select.ana_apply(df2, "_p1", setname, f)
             cur_p_set = set(df2[df2.direct_p1 == 1].name.unique())
             cur_n_set = set(df2[df2.direct_p1 == -1].name.unique())
-            abs_direct_p_set = abs_direct_p_set.intersection(cur_p_set)
-            abs_direct_n_set = abs_direct_n_set.intersection(cur_n_set)
-            print len(abs_direct_n_set)
-    df.loc[:,"istable"] = df.apply(lambda row: 1 if row["name"] in abs_direct_p_set else \
-             (1 if row["name"] in abs_direct_n_set else 0), axis = 1)
+            abs_direct_p_set = abs_direct_p_set - Counter(set(abs_direct_p_set) - cur_p_set)
+            abs_direct_n_set = abs_direct_n_set - Counter(set(abs_direct_n_set) - cur_n_set)
+            print len(set(abs_direct_n_set))
+    df.loc[:,"istable"] = df.apply(lambda row: 1 if row["name"] in set(abs_direct_p_set) else \
+             (1 if row["name"] in set(abs_direct_n_set) else 0), axis = 1)
     df.loc[:, "direct"] = df.apply(lambda row: 0 if row["istable"] == 0 else row["direct"], axis=1)
     df.to_pickle(os.path.join(dataroot,
                                 "phase1_dump",
@@ -58,8 +63,8 @@ def cross_test(df, sets, dates,name,depth):
                                 (name,args.depth)
                              )
                  )
-    print "|%d|%d|%d|" % (len(orig_direct_p_set), len(abs_direct_p_set), len(orig_direct_p_set- abs_direct_p_set))
-    print "|%d|%d|%d|" % (len(orig_direct_n_set), len(abs_direct_n_set), len(orig_direct_n_set- abs_direct_n_set))
+    print "|%d|%d|%d|" % (len(set(orig_direct_p_set)), len(set(abs_direct_p_set)), len(set(orig_direct_p_set)- set(abs_direct_p_set)))
+    print "|%d|%d|%d|" % (len(set(orig_direct_n_set)), len(set(abs_direct_n_set)), len(set(orig_direct_n_set)- set(abs_direct_n_set)))
     print >> f, "## stable feats on postive direct"
     for name in abs_direct_p_set:
         idx = 0
@@ -69,7 +74,7 @@ def cross_test(df, sets, dates,name,depth):
             idx += 1
 
     print >> f, "## UNstable feats on postive direct"
-    for name in orig_direct_p_set - abs_direct_p_set:
+    for name in set(orig_direct_p_set) - set(abs_direct_p_set):
         idx = 0
         for i, each in df[df.name == name].iterrows():
             print >>f, "|%s|%.4f|%.4f|" % (each["fname"],each["start"],each["end"])
@@ -77,7 +82,7 @@ def cross_test(df, sets, dates,name,depth):
             idx += 1
 
     print >> f, "## stable feats on negtive direct"
-    for name in abs_direct_n_set:
+    for name in set(abs_direct_n_set):
         idx = 0
         for i, each in df[df.name == name].iterrows():
             print >>f, "|%s|%.4f|%.4f|" % (each["fname"],each["start"],each["end"])
