@@ -61,6 +61,7 @@ def merge(sym2feats):
     dfMerged = None
     toAppends = []
     for sym in sym2feats.keys():
+        df = sym2feats[sym]
         toAppends.append(df)
     if len(toAppends) > 0:
         dfMerged =  pd.concat(toAppends)
