@@ -60,6 +60,7 @@ def cross_test(df, sets, dates,name,depth):
                                 "sp500_base1_%s_%d_stable.pkl" % \
                                 (name,args.depth)
                              )
+                 )
     print "|%d|%d|%d|" % (len(orig_direct_p_set), len(abs_direct_p_set), len(orig_direct_p_set- abs_direct_p_set))
     print "|%d|%d|%d|" % (len(orig_direct_n_set), len(abs_direct_n_set), len(orig_direct_n_set- abs_direct_n_set))
     print >> f, "## stable feats on postive direct"
@@ -118,7 +119,7 @@ if __name__ == '__main__':
     for i in range(2000,2010)
         dates.append(("%d"%i,"%d"%(i+1)))
     print dates
-    cross_test(df, sets, dates, "all", 1)
+    cross_test(df, sets, dates, "all", args.depth)
     sys.exit(0)
     f = open(os.path.join(dataroot, "feat_select_phase1_sp500_%d.ana" % args.depth), "w")
     feat_select.ana_fmetas(df, "base1", "sp500", f)
