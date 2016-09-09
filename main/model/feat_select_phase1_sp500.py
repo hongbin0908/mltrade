@@ -24,8 +24,8 @@ def cross_test(df, sets, dates,name,depth):
 
     orig_direct_p_set = abs_direct_p_set.copy()
     orig_direct_n_set = abs_direct_n_set.copy()
-    print len(abs_direct_p_set)
-    print len(abs_direct_n_set)
+    print len(set(abs_direct_p_set))
+    print len(set(abs_direct_n_set))
 
     abs_direct_p_set = abs_direct_p_set + abs_direct_p_set
     abs_direct_n_set = abs_direct_n_set + abs_direct_n_set
@@ -90,7 +90,7 @@ def cross_test(df, sets, dates,name,depth):
             idx += 1
 
     print >> f, "## unstable feats on negtive direct"
-    for name in orig_direct_n_set - abs_direct_n_set:
+    for name in set(orig_direct_n_set) - set(abs_direct_n_set):
         idx = 0
         for i, each in df[df.name == name].iterrows():
             print >>f, "|%s|%.4f|%.4f|" % (each["fname"],each["start"],each["end"])
