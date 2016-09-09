@@ -48,10 +48,10 @@ def main(args):
     if os.path.isfile(file_model):
         print "%s already exists!" % file_model
         return
-    dfTa = base.get_merged(args.taname, getattr(yeod, "get_%s" % args.setname)())
+    dfTa = base.get_merged(args.taname, getattr(yeod, "get_%s" % args.setname)(),args.start,args.end)
     if dfTa is None:
         return None
-    dfTrain = build_trains(dfTa, args.start, args.end)
+    #dfTrain = build_trains(dfTa, args.start, args.end)
 
     if args.sample:
         print "sampling ..."
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     parser.add_argument('--sample', help="sample method", dest="sample", action="store", default=None)
     parser.add_argument('--scaler', help="scaler method", dest="scaler", action="store", default=None)
     parser.add_argument('--start', dest='start', action='store', default='1980-01-01', help="model start time")
-    parser.add_argument('--end',   dest='end',   action='store', default='1999-12-31', help="model end time")
+    parser.add_argument('--end',   dest='end',   action='store', default='2000-01-01', help="model end time")
     parser.add_argument('--label', dest='labelname', action='store', default='label5', help="the label name")
 
     parser.add_argument('setname', help = "the sym set to be ta")

@@ -29,11 +29,11 @@ def get_scaler(clsName):
 
 def main(args):
     lsym =  getattr(yeod, "get_%s" % args.setname)()
-    dfTa = base.get_merged(args.taname, lsym)
+    dfTa = base.get_merged(args.taname, lsym,args.start,args.end)
     if dfTa is None:
         print "can not merge " % args.setname
         sys.exit(1)
-    dfTa = base.get_range(dfTa, args.start, args.end)
+    #dfTa = base.get_range(dfTa, args.start, args.end)
     print dfTa.shape
     #if args.filter:
     #    dfTa = filter_trend(dfTa)
