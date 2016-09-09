@@ -17,7 +17,7 @@ import main.ta as ta
 from main.utils import time_me
 
 
-def print_each(df, fout):
+def print_empty(df, fout):
     for each in df.iterrows():
         pred = each[1]["pred"]
         pred_dfTrue = each[1]["pred_dfTrue"]
@@ -92,7 +92,7 @@ def main(argv):
         dfAll.groupby('sym').count
 
         print >> fout,  "=" * 8 , "detail", "=" * 8
-        print_each(dfMonth, fout)
+        print_empty(dfMonth, fout)
 
         print >> fout,  "=" * 8, "view of years", "=" * 8
         print >> fout, group_by_year(dfAll, dfSelected, level)
@@ -102,6 +102,10 @@ def main(argv):
         print >> fout, dfSelected.sort_values(["pred"],ascending=False).groupby('yyyy').head(2).sort_values(['yyyy'])
         print >> fout, "="*8, "bad good perfomance", '='*8
         print >> fout, dfSelected.sort_values(["pred"],ascending=True).groupby('yyyy').head(2).sort_values(['yyyy'])
+        print >> fout, "="*8, "all", "="*8
+        print >> fout, dfSelected.sort_values(["pred"], ascending=True)
+
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])
