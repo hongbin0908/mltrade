@@ -38,10 +38,10 @@ def split_dates(df):
     return (phase1, phase2, phase3)
 
 @time_me
-def load_feat(taname, setname):
+def load_feat(taname, setname,start="",end=""):
     # get all the features
     dfTa = base.get_merged(taname,
-                           getattr(yeod, "get_%s" % setname)())
+                           getattr(yeod, "get_%s" % setname)(),start, end)
     dfTa = dfTa[dfTa.label5 != 1.0]
     return dfTa
 

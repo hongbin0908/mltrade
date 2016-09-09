@@ -57,32 +57,21 @@ def get_range(df, start ,end):
     """
     return df[(df.date>=start) & (df.date<=end)]
 
-def merge(sym2feats):
+def merge(sym2feats,start="", end=""):
     dfMerged = None
     toAppends = []
     for sym in sym2feats.keys():
         df = sym2feats[sym]
+        if len(start) > 0:
+            df = df[(df.date >=start)&(df.date<end)]
         toAppends.append(df)
     if len(toAppends) > 0:
         dfMerged =  pd.concat(toAppends)
     return dfMerged
-#def merge(sym2feats):
-#    dfMerged = None
-#    toAppends = []
-#    for sym in sym2feats.keys():
-#        df = sym2feats[sym]
-#        if dfMerged is None:
-#            dfMerged = df
-#        else:
-#            toAppends.append(df)
-#    # batch merge speeds up!
-#    if len(toAppends) > 0:
-#        dfMerged =  dfMerged.append(toAppends)
-#    return dfMerged
 
-def get_merged_with_na(taname, lsym):
+def get_merged_with_na(taname, lsym,start="", end=""):
     sym2ta = get_all(taname, lsym)
-    df = merge(sym2ta)
+    df = merge(sym2ta,start,end)
     if df is None:
         return None
     if len(df) > 0 and "ta_NATR_14" in df:
@@ -90,8 +79,8 @@ def get_merged_with_na(taname, lsym):
     return df
 
 @time_me
-def get_merged(taname, lsym):
-    df = get_merged_with_na(taname, lsym)
+def get_merged(taname, lsym,start = "", end =""):
+    df = get_merged_with_na(taname, lsym,start,end)
     if df is None:
         return df
     df = df.replace([np.inf,-np.inf],np.nan)\
