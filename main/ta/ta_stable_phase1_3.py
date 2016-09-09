@@ -23,7 +23,7 @@ import main.ta.ta_cdl as cdl
 def merge(df, depth):
     dfStable = pd.read_pickle(os.path.join(dataroot,
                               "phase1_dump",
-                              "sp500_base1_%d_stable.pkl" % depth))
+                              "sp500_base1_%s_%d_stable.pkl" % ("all",depth))
     dfStable = dfStable[dfStable.direct != 0]
     tobe = []
     for i, each in  dfStable.iterrows():
