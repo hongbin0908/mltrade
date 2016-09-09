@@ -39,11 +39,8 @@ def cross_test(df, sets, dates,name,depth):
                                      d[1])
                    )
             if not os.path.exists(filename):
-                df2 = feat_select.apply(df,
-                    feat_select.split_dates(
-                        feat_select.load_feat(taname, setname,d[0],d[1]))[0],
-                        "label5", "_p1")
-
+                fs = feat_select.load_feat(taname, setname,d[0],d[1]))
+                df2 = feat_select.apply(df,fs)
                 df2.to_pickle(filename)
             df2 = pd.read_pickle(filename)
             feat_select.ana_apply(df2, "_p1", setname, f)
@@ -116,7 +113,7 @@ if __name__ == '__main__':
         sets.append("sp500R%dT%d"%(frm,to))
     print sets
     dates = []
-    for i in range(2000,2010):
+    for i in range(1980,2000):
         dates.append(("%d"%i,"%d"%(i+1)))
     print dates
     cross_test(df, sets, dates, "all", args.depth)
