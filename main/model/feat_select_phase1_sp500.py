@@ -40,7 +40,7 @@ def cross_test(df, sets, dates,name,depth):
                    )
             if not os.path.exists(filename):
                 fs = feat_select.load_feat(taname, setname,d[0],d[1])
-                df2 = feat_select.apply(df,fs)
+                df2 = feat_select.apply(df,fs,"label5", "_p1")
                 df2.to_pickle(filename)
             df2 = pd.read_pickle(filename)
             feat_select.ana_apply(df2, "_p1", setname, f)
