@@ -56,7 +56,7 @@ d_model = {
     "RFCv1n2000md6":RandomForestClassifier(**{'verbose':1, 'n_estimators':2000, 'max_depth':6, 'n_jobs':10}),
     "RFCv1n2000md6msl100":RandomForestClassifier(**{'verbose':1, 'n_estimators':2000, 'max_depth':6,'min_samples_leaf':100, 'n_jobs':10}),
     "RFCv1n2000md6msl1000":RandomForestClassifier(**{'verbose':1, 'n_estimators':2000, 'max_depth':6,'min_samples_leaf':1000, 'n_jobs':10}),
-    "RFCv1n1000md6msl1000":RandomForestClassifier(**{'verbose':1, 'n_estimators':2000, 'max_depth':6,'min_samples_leaf':1000, 'n_jobs':10}),
+    "RFCv1n1000md6msl1000":RandomForestClassifier(**{'verbose':1, 'n_estimators':1000, 'max_depth':6,'min_samples_leaf':1000, 'n_jobs':10}),
     "RFCv1n2000md2":RandomForestClassifier(**{'verbose':1, 'n_estimators':2000, 'max_depth':2, 'n_jobs':10}),
     "RFCv1n1500md6":RandomForestClassifier(**{'verbose':1, 'n_estimators':1500, 'max_depth':6, 'n_jobs':10}),
     "RFCv1n3000md6":RandomForestClassifier(**{'verbose':1, 'n_estimators':3000, 'max_depth':6, 'n_jobs':10}),
