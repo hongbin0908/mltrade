@@ -20,7 +20,7 @@ sys.path.append(root)
 
 from main.utils import time_me
 
-def to_pickles(df, batch=100000,picklename):
+def to_pickles(df, batch,picklename):
     df = df.reset_index(drop=True)
 
 def get_file_list(rootdir, ext=".csv"):
