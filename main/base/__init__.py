@@ -61,15 +61,23 @@ def merge(sym2feats):
     dfMerged = None
     toAppends = []
     for sym in sym2feats.keys():
-        df = sym2feats[sym]
-        if dfMerged is None:
-            dfMerged = df
-        else:
-            toAppends.append(df)
-    # batch merge speeds up!
+        toAppends.append(df)
     if len(toAppends) > 0:
-        dfMerged =  dfMerged.append(toAppends)
+        dfMerged =  pd.concat(toAppends)
     return dfMerged
+#def merge(sym2feats):
+#    dfMerged = None
+#    toAppends = []
+#    for sym in sym2feats.keys():
+#        df = sym2feats[sym]
+#        if dfMerged is None:
+#            dfMerged = df
+#        else:
+#            toAppends.append(df)
+#    # batch merge speeds up!
+#    if len(toAppends) > 0:
+#        dfMerged =  dfMerged.append(toAppends)
+#    return dfMerged
 
 def get_merged_with_na(taname, lsym):
     sym2ta = get_all(taname, lsym)
