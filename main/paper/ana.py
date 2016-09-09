@@ -103,7 +103,9 @@ def main(argv):
         print >> fout, "="*8, "bad good perfomance", '='*8
         print >> fout, dfSelected.sort_values(["pred"],ascending=True).groupby('yyyy').head(2).sort_values(['yyyy'])
         print >> fout, "="*8, "all", "="*8
-        print >> fout, dfSelected.sort_values(["pred"], ascending=True)
+        pd.set_option('display.max_rows', len(dfSelected))
+        print >> fout, dfSelected.sort_values(["yyyy","pred"], ascending=True)
+        pd.reset_option('display.max_rows')
 
 
 
