@@ -113,8 +113,8 @@ if __name__ == '__main__':
         sets.append("sp500R%dT%d"%(frm,to))
     print sets
     dates = []
-    for i in range(1980,2000):
-        dates.append(("%d"%i,"%d"%(i+1)))
+    for i in range(1980,2000,5):
+        dates.append(("%d"%i,"%d"%(i+5)))
     print dates
     cross_test(df, sets, dates, "all", args.depth)
     sys.exit(0)
